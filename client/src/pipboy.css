@@ -1,0 +1,154 @@
+/* ============================================
+   PIP-BOY THEME — NukaSoft Vault 69
+   CRT effects + color overrides for dashboard
+   ============================================ */
+
+/* --- Font Face --- */
+@font-face {
+  font-family: 'Monofonto';
+  src: url('/fonts/monofonto.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* --- CRT Scanlines --- */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.12) 2px,
+    rgba(0, 0, 0, 0.12) 4px
+  );
+  pointer-events: none;
+  z-index: 99999;
+}
+
+/* --- CRT Vignette --- */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.6) 100%);
+  pointer-events: none;
+  z-index: 99998;
+}
+
+/* --- Global text color override --- */
+body {
+  color: #18FF62;
+}
+
+/* --- Headings use Monofonto --- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Monofonto', 'Share Tech Mono', 'Courier New', monospace !important;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #18FF62;
+}
+
+/* --- Card hover glow --- */
+.card-hover {
+  background: rgba(10, 25, 10, 0.85);
+  border: 1px solid #1a3a1a;
+  border-radius: 6px;
+  transition: all 0.15s;
+}
+
+.card-hover:hover {
+  border-color: #18FF62;
+  box-shadow: 0 0 12px rgba(24, 255, 98, 0.15);
+}
+
+/* --- Accent color overrides --- */
+.text-accent { color: #18FF62 !important; }
+.bg-accent\/10, .bg-accent\/15, .bg-accent\/20 {
+  background-color: rgba(24, 255, 98, 0.1) !important;
+}
+.border-accent\/20 { border-color: rgba(24, 255, 98, 0.2) !important; }
+
+/* --- Status badge overrides --- */
+.text-emerald-400 { color: #18FF62 !important; }
+.bg-emerald-500\/10 { background-color: rgba(24, 255, 98, 0.1) !important; }
+.border-emerald-500\/20 { border-color: rgba(24, 255, 98, 0.2) !important; }
+.bg-emerald-400 { background-color: #18FF62 !important; }
+
+.text-violet-400 { color: #0bae0f !important; }
+.bg-violet-500\/10 { background-color: rgba(11, 174, 15, 0.1) !important; }
+.border-violet-500\/20 { border-color: rgba(11, 174, 15, 0.2) !important; }
+.bg-violet-400 { background-color: #0bae0f !important; }
+
+.text-blue-400 { color: #18FF62 !important; }
+.bg-blue-500\/10 { background-color: rgba(24, 255, 98, 0.08) !important; }
+.border-blue-500\/20 { border-color: rgba(24, 255, 98, 0.15) !important; }
+.bg-blue-400 { background-color: #18FF62 !important; }
+
+.text-yellow-400 { color: #FFB642 !important; }
+.bg-yellow-500\/10 { background-color: rgba(255, 182, 66, 0.1) !important; }
+.border-yellow-500\/20 { border-color: rgba(255, 182, 66, 0.2) !important; }
+
+.text-red-400 { color: #ff3333 !important; }
+.bg-red-500\/10 { background-color: rgba(255, 51, 51, 0.1) !important; }
+.border-red-500\/20 { border-color: rgba(255, 51, 51, 0.2) !important; }
+
+/* --- Gray text → dim green --- */
+.text-gray-100 { color: #18FF62 !important; }
+.text-gray-200 { color: #18FF62 !important; }
+.text-gray-300 { color: #0bae0f !important; }
+.text-gray-400 { color: #0bae0f !important; }
+.text-gray-500 { color: #086b0a !important; }
+.text-gray-600 { color: #0d2a0d !important; }
+
+/* --- Indigo → green (for chart accents) --- */
+.text-indigo-400 { color: #18FF62 !important; }
+.bg-indigo-500\/10 { background-color: rgba(24, 255, 98, 0.1) !important; }
+
+/* --- Sidebar active state --- */
+.bg-accent\/10 {
+  background-color: rgba(24, 255, 98, 0.08) !important;
+}
+
+/* --- Links --- */
+a { color: #0bae0f; }
+a:hover { color: #18FF62; text-shadow: 0 0 6px rgba(24, 255, 98, 0.4); }
+
+/* --- Scrollbar --- */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: #0b1a0b; }
+::-webkit-scrollbar-thumb { background: #1a3a1a; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #255a25; }
+
+/* --- Selection --- */
+::selection { background: rgba(24, 255, 98, 0.3); color: #18FF62; }
+
+/* --- Pip-Boy utility classes --- */
+.pip-glow { text-shadow: 0 0 8px rgba(24, 255, 98, 0.6); }
+.pip-border-glow { box-shadow: 0 0 12px rgba(24, 255, 98, 0.15); }
+
+/* --- Segmented bar --- */
+.pip-seg-bar {
+  display: flex;
+  gap: 2px;
+  height: 10px;
+}
+.pip-seg-bar .seg {
+  flex: 1;
+  background: #0d2a0d;
+  border-radius: 1px;
+}
+.pip-seg-bar .seg.filled {
+  background: #18FF62;
+  box-shadow: 0 0 4px rgba(24, 255, 98, 0.4);
+}
+.pip-seg-bar .seg.warn {
+  background: #FFB642;
+  box-shadow: 0 0 4px rgba(255, 182, 66, 0.4);
+}
+.pip-seg-bar .seg.crit {
+  background: #ff3333;
+  box-shadow: 0 0 4px rgba(255, 51, 51, 0.4);
+}

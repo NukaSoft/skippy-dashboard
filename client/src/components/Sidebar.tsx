@@ -7,6 +7,7 @@ import {
   BarChart3,
   Workflow,
   Settings,
+  Shield,
   Wifi,
   WifiOff,
   Github,
@@ -16,13 +17,14 @@ import {
 } from "lucide-react";
 
 const NAV_ITEMS = [
-  { to: "/", icon: LayoutDashboard, label: "Dashboard" },
-  { to: "/kanban", icon: Columns3, label: "Agent Board" },
-  { to: "/sessions", icon: FolderOpen, label: "Sessions" },
-  { to: "/activity", icon: Activity, label: "Activity Feed" },
-  { to: "/analytics", icon: BarChart3, label: "Analytics" },
-  { to: "/workflows", icon: Workflow, label: "Workflows" },
-  { to: "/settings", icon: Settings, label: "Settings" },
+  { to: "/", icon: LayoutDashboard, label: "STAT" },
+  { to: "/kanban", icon: Columns3, label: "BOARD" },
+  { to: "/sessions", icon: FolderOpen, label: "DATA" },
+  { to: "/activity", icon: Activity, label: "FEED" },
+  { to: "/analytics", icon: BarChart3, label: "ANALYTICS" },
+  { to: "/workflows", icon: Workflow, label: "WORKFLOWS" },
+  { to: "/bishop", icon: Shield, label: "BISHOP" },
+  { to: "/settings", icon: Settings, label: "CONFIG" },
 ] as const;
 
 const STORAGE_KEY = "sidebar-collapsed";
@@ -48,23 +50,25 @@ export function Sidebar({ wsConnected, collapsed, onToggle }: SidebarProps) {
         collapsed ? "w-[4.25rem]" : "w-60"
       }`}
     >
-      {/* Brand */}
+      {/* Vault 69 Brand */}
       <div className="px-3 py-4 border-b border-border">
         <div className={`flex items-center ${collapsed ? "justify-center" : "gap-3 px-2"}`}>
-          <div className="w-8 h-8 rounded-lg bg-accent/20 flex items-center justify-center flex-shrink-0">
-            <Activity className="w-4 h-4 text-accent" />
+          {/* Vault Door Icon */}
+          <div className="w-9 h-9 rounded-full border-2 border-accent flex items-center justify-center flex-shrink-0"
+               style={{ boxShadow: '0 0 8px rgba(24, 255, 98, 0.3)' }}>
+            <span className="font-heading text-accent text-xs font-bold">69</span>
           </div>
           {!collapsed && (
             <div className="min-w-0">
-              <h1 className="text-sm font-semibold text-gray-100 truncate">Agent Dashboard</h1>
-              <p className="text-[11px] text-gray-500">Claude Code Monitor</p>
+              <h1 className="text-sm font-heading text-accent truncate tracking-wider">VAULT 69</h1>
+              <p className="text-[11px] text-pip-dim">NukaSoft Command Center</p>
             </div>
           )}
         </div>
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 px-2 py-3 space-y-1">
+      <nav className="flex-1 px-2 py-3 space-y-0.5">
         {NAV_ITEMS.map(({ to, icon: Icon, label }) => (
           <NavLink
             key={to}
@@ -72,16 +76,16 @@ export function Sidebar({ wsConnected, collapsed, onToggle }: SidebarProps) {
             end={to === "/"}
             title={collapsed ? label : undefined}
             className={({ isActive }) =>
-              `flex items-center gap-3 rounded-lg text-sm font-medium transition-colors duration-150 ${
+              `flex items-center gap-3 text-sm font-heading tracking-wider transition-colors duration-150 ${
                 collapsed ? "justify-center px-2 py-2.5" : "px-3 py-2.5"
               } ${
                 isActive
-                  ? "bg-accent/10 text-accent border border-accent/20"
-                  : "text-gray-400 hover:text-gray-200 hover:bg-surface-3 border border-transparent"
+                  ? "text-accent border-l-2 border-l-accent bg-accent/10"
+                  : "text-pip-dim hover:text-accent hover:bg-surface-3 border-l-2 border-l-transparent"
               }`
             }
           >
-            <Icon className="w-4 h-4 flex-shrink-0" />
+            <Icon className="w-4 h-4 flex-shrink-0" strokeWidth={2.5} />
             {!collapsed && <span>{label}</span>}
           </NavLink>
         ))}
@@ -91,15 +95,15 @@ export function Sidebar({ wsConnected, collapsed, onToggle }: SidebarProps) {
       <div className="px-2 py-2">
         <button
           onClick={onToggle}
-          className="flex items-center gap-3 w-full px-3 py-2 rounded-lg text-xs text-gray-500 hover:text-gray-300 hover:bg-surface-3 transition-colors"
+          className="flex items-center gap-3 w-full px-3 py-2 rounded-lg text-xs text-pip-dim hover:text-accent hover:bg-surface-3 transition-colors font-heading tracking-wider"
           title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
           {collapsed ? (
-            <PanelLeftOpen className="w-4 h-4 flex-shrink-0 mx-auto" />
+            <PanelLeftOpen className="w-4 h-4 flex-shrink-0 mx-auto" strokeWidth={2.5} />
           ) : (
             <>
-              <PanelLeftClose className="w-4 h-4 flex-shrink-0" />
-              <span>Collapse</span>
+              <PanelLeftClose className="w-4 h-4 flex-shrink-0" strokeWidth={2.5} />
+              <span>COLLAPSE</span>
             </>
           )}
         </button>
@@ -109,60 +113,60 @@ export function Sidebar({ wsConnected, collapsed, onToggle }: SidebarProps) {
       <div
         className={`px-3 py-3 border-t border-border space-y-2 ${collapsed ? "items-center" : ""}`}
       >
-        <div className={`flex items-center text-xs ${collapsed ? "justify-center" : "gap-2"}`}>
+        <div className={`flex items-center text-xs font-mono ${collapsed ? "justify-center" : "gap-2"}`}>
           {wsConnected ? (
             <>
-              <Wifi className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
-              {!collapsed && <span className="text-emerald-400">Live</span>}
+              <Wifi className="w-3.5 h-3.5 text-accent flex-shrink-0" />
+              {!collapsed && <span className="text-accent">LIVE</span>}
             </>
           ) : (
             <>
-              <WifiOff className="w-3.5 h-3.5 text-gray-500 flex-shrink-0" />
-              {!collapsed && <span className="text-gray-500">Disconnected</span>}
+              <WifiOff className="w-3.5 h-3.5 text-pip-dim flex-shrink-0" />
+              {!collapsed && <span className="text-pip-dim">OFFLINE</span>}
             </>
           )}
-          {!collapsed && <span className="ml-auto text-gray-600">v1.0.0</span>}
+          {!collapsed && <span className="ml-auto text-pip-dark font-heading text-[10px]">V-69</span>}
         </div>
         {!collapsed && (
           <div className="flex items-center gap-3">
             <a
-              href="https://github.com/hoangsonww"
+              href="https://github.com/NukaSoft/skippy-dashboard"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-500 hover:text-gray-300 transition-colors"
+              className="text-pip-dim hover:text-accent transition-colors"
               title="GitHub"
             >
               <Github className="w-3.5 h-3.5" />
             </a>
             <a
-              href="https://sonnguyenhoang.com"
+              href="https://nukasoft.ai"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-500 hover:text-gray-300 transition-colors flex items-center gap-1 text-[11px]"
-              title="sonnguyenhoang.com"
+              className="text-pip-dim hover:text-accent transition-colors flex items-center gap-1 text-[11px] font-heading"
+              title="nukasoft.ai"
             >
               <Globe className="w-3.5 h-3.5" />
-              <span>sonnguyenhoang.com</span>
+              <span>NUKASOFT.AI</span>
             </a>
           </div>
         )}
         {collapsed && (
           <div className="flex justify-center gap-2">
             <a
-              href="https://github.com/hoangsonww"
+              href="https://github.com/NukaSoft/skippy-dashboard"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-500 hover:text-gray-300 transition-colors"
+              className="text-pip-dim hover:text-accent transition-colors"
               title="GitHub"
             >
               <Github className="w-3.5 h-3.5" />
             </a>
             <a
-              href="https://sonnguyenhoang.com"
+              href="https://nukasoft.ai"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-500 hover:text-gray-300 transition-colors"
-              title="sonnguyenhoang.com"
+              className="text-pip-dim hover:text-accent transition-colors"
+              title="NukaSoft"
             >
               <Globe className="w-3.5 h-3.5" />
             </a>

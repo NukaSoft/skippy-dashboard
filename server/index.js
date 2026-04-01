@@ -53,9 +53,9 @@ function startServer(app, port) {
   }
 
   return new Promise((resolve) => {
-    server.listen(port, () => {
+    server.listen(port, "0.0.0.0", () => {
       const mode = isProduction ? "production" : "development";
-      console.log(`Agent Dashboard server running on http://localhost:${port} (${mode})`);
+      console.log(`Agent Dashboard server running on http://0.0.0.0:${port} (${mode})`);
       if (!isProduction) {
         console.log(`Client dev server expected at http://localhost:5173`);
       }

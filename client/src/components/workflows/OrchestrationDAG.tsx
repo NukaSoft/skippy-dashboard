@@ -59,9 +59,9 @@ const MIN_EDGE_STROKE = 1.5;
 const LAYER_LABELS = ["Origin", "Main Agent", "Subagent Types", "Compactions", "Outcomes"];
 
 const OUTCOME_COLORS: Record<string, { fill: string; stroke: string; text: string }> = {
-  completed: { fill: "#052e16", stroke: "#16a34a", text: "#4ade80" },
-  error: { fill: "#1f0808", stroke: "#dc2626", text: "#f87171" },
-  abandoned: { fill: "#1c1a04", stroke: "#ca8a04", text: "#facc15" },
+  completed: { fill: "#0d2a0d", stroke: "#18FF62", text: "#18FF62" },
+  error: { fill: "#1f0808", stroke: "#ff3333", text: "#ff3333" },
+  abandoned: { fill: "#1c1a04", stroke: "#FFB642", text: "#FFB642" },
 };
 
 const KIND_GRADIENTS: Record<
@@ -71,22 +71,22 @@ const KIND_GRADIENTS: Record<
   session: {
     id: "grad-session",
     stops: [
-      { offset: "0%", color: "#312e81" },
-      { offset: "100%", color: "#4338ca" },
+      { offset: "0%", color: "#0d2a0d" },
+      { offset: "100%", color: "#0bae0f" },
     ],
   },
   main: {
     id: "grad-main",
     stops: [
-      { offset: "0%", color: "#1e3a5f" },
-      { offset: "100%", color: "#1d4ed8" },
+      { offset: "0%", color: "#0d2a0d" },
+      { offset: "100%", color: "#18FF62" },
     ],
   },
   subagent: {
     id: "grad-subagent",
     stops: [
-      { offset: "0%", color: "#052e16" },
-      { offset: "100%", color: "#166534" },
+      { offset: "0%", color: "#0d2a0d" },
+      { offset: "100%", color: "#086b0a" },
     ],
   },
   nested: {
