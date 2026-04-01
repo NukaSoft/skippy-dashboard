@@ -11,7 +11,7 @@ const MAX_BUBBLE_R = 32;
 const STATUS_COLOR: Record<string, string> = {
   completed: "#22c55e",
   error: "#ef4444",
-  active: "#6366f1",
+  active: "#18FF62",
   abandoned: "#eab308",
 };
 

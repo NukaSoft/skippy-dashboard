@@ -80,12 +80,12 @@ function cellColor(count: number, max: number) {
   if (count === 0) return "#161625";
   // Log scale + RGB interpolation across a wide color ramp for maximum perceptual range
   const t = Math.log(count + 1) / Math.log(Math.max(max, 1) + 1);
-  // Ramp: near-black indigo → deep indigo → bright indigo → lavender
+  // Ramp: pip dark → pip dim → pip green → lavender
   type RGB = [number, number, number];
   const stops: RGB[] = [
-    [22, 20, 60], // near-black indigo
-    [55, 48, 163], // deep indigo
-    [99, 102, 241], // bright indigo
+    [11, 26, 11], // pip dark
+    [13, 42, 13], // pip dim
+    [24, 255, 98], // pip green
     [199, 210, 254], // lavender
   ];
   const scaled = t * (stops.length - 1);
@@ -204,7 +204,7 @@ function Heatmap({ weeks }: { weeks: Array<Array<{ date: string; count: number }
 
 function Sparkline({
   data,
-  color = "#6366f1",
+  color = "#18FF62",
 }: {
   data: Array<{ date: string; count: number }>;
   color?: string;
@@ -519,7 +519,7 @@ export function Analytics() {
   const agentStatusSegments = [
     { label: "Completed", value: data?.agents_by_status?.completed ?? 0, color: "#8b5cf6" },
     { label: "Working", value: data?.agents_by_status?.working ?? 0, color: "#10b981" },
-    { label: "Connected", value: data?.agents_by_status?.connected ?? 0, color: "#3b82f6" },
+    { label: "Connected", value: data?.agents_by_status?.connected ?? 0, color: "#18FF62" },
     { label: "Idle", value: data?.agents_by_status?.idle ?? 0, color: "#6b7280" },
     { label: "Error", value: data?.agents_by_status?.error ?? 0, color: "#ef4444" },
   ].filter((s) => s.value > 0);
@@ -586,7 +586,7 @@ export function Analytics() {
           raw={(data?.overview.total_sessions ?? 0).toLocaleString()}
           sub={`${data?.overview.active_sessions ?? 0} active`}
           icon={FolderOpen}
-          color="text-blue-400"
+          color="text-accent"
         />
         <StatPill
           label="Total Agents"
@@ -602,7 +602,7 @@ export function Analytics() {
           raw={totalTokens.toLocaleString()}
           sub={`${cacheHitPct}% cache hit rate`}
           icon={Cpu}
-          color="text-violet-400"
+          color="text-pip-dim"
         />
         <StatPill
           label="Total Cost"
@@ -731,7 +731,7 @@ export function Analytics() {
                 </div>
                 <div className="flex justify-between text-xs text-gray-500">
                   <span>Cache efficiency</span>
-                  <span className="text-violet-400 font-mono">{cacheHitPct}%</span>
+                  <span className="text-pip-dim font-mono">{cacheHitPct}%</span>
                 </div>
               </div>
             </div>
@@ -741,7 +741,7 @@ export function Analytics() {
               <h3 className="text-sm font-medium text-gray-300 mb-5">Token Breakdown</h3>
               <div className="space-y-3">
                 {[
-                  { label: "Input", value: data?.tokens.total_input ?? 0, color: "text-blue-400" },
+                  { label: "Input", value: data?.tokens.total_input ?? 0, color: "text-accent" },
                   {
                     label: "Output",
                     value: data?.tokens.total_output ?? 0,
@@ -750,7 +750,7 @@ export function Analytics() {
                   {
                     label: "Cache Read",
                     value: data?.tokens.total_cache_read ?? 0,
-                    color: "text-violet-400",
+                    color: "text-pip-dim",
                   },
                   {
                     label: "Cache Write",
@@ -789,7 +789,7 @@ export function Analytics() {
                         label: b.model,
                         value: Math.round(b.cost * 100),
                         color:
-                          ["#8b5cf6", "#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#ec4899"][
+                          ["#8b5cf6", "#18FF62", "#10b981", "#f59e0b", "#ef4444", "#ec4899"][
                             i % 6
                           ] ?? "#6b7280",
                       }))}
@@ -962,7 +962,7 @@ export function Analytics() {
                 <p className="text-sm text-gray-500">No session trend data yet.</p>
               ) : (
                 <>
-                  <Sparkline data={dailySessionsLocal.slice(-30)} color="#6366f1" />
+                  <Sparkline data={dailySessionsLocal.slice(-30)} color="#18FF62" />
                   <div className="mt-4 space-y-2">
                     {dailySessionsLocal
                       .slice(-7)

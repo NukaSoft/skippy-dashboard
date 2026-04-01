@@ -2,13 +2,13 @@ import type { SubagentEffectivenessItem } from "../../lib/types";
 
 const COLORS = [
   "#10b981",
-  "#3b82f6",
+  "#18FF62",
   "#a855f7",
   "#f59e0b",
   "#f43f5e",
   "#06b6d4",
   "#f97316",
-  "#6366f1",
+  "#18FF62",
 ] as const;
 
 const RING_RADIUS = 28;

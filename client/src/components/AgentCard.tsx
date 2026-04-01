@@ -34,7 +34,7 @@ export function AgentCard({ agent, onClick }: AgentCardProps) {
             className={`w-7 h-7 rounded-md flex items-center justify-center flex-shrink-0 ${
               agent.type === "main"
                 ? "bg-accent/15 text-accent"
-                : "bg-violet-500/15 text-violet-400"
+                : "bg-accent/10 text-pip-dim"
             }`}
           >
             {agent.type === "main" ? (

@@ -36,8 +36,8 @@ const FAMILY_COLORS = {
     badge: "rgba(168,85,247,0.15)",
   },
   sonnet: {
-    grad: ["#1d4ed8", "#3b82f6"] as [string, string],
-    stroke: "#3b82f6",
+    grad: ["#0bae0f", "#18FF62"] as [string, string],
+    stroke: "#18FF62",
     text: "#bfdbfe",
     badge: "rgba(59,130,246,0.15)",
   },

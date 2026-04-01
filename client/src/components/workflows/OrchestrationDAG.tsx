@@ -100,7 +100,7 @@ const KIND_GRADIENTS: Record<
     id: "grad-outcome",
     stops: [
       { offset: "0%", color: "#1e1b4b" },
-      { offset: "100%", color: "#4338ca" },
+      { offset: "100%", color: "#0bae0f" },
     ],
   },
 };
@@ -537,7 +537,7 @@ export function OrchestrationDAG({ data, onNodeClick, selectedNode }: Orchestrat
         .append("path")
         .attr("d", path)
         .attr("fill", "none")
-        .attr("stroke", "#6366f1")
+        .attr("stroke", "#18FF62")
         .attr("stroke-width", stroke + 2)
         .attr("stroke-opacity", isZero ? 0 : 0.08)
         .attr("filter", "url(#edge-glow)");
@@ -547,7 +547,7 @@ export function OrchestrationDAG({ data, onNodeClick, selectedNode }: Orchestrat
         .append("path")
         .attr("d", path)
         .attr("fill", "none")
-        .attr("stroke", isZero ? "#2a2a3d" : "#4f46e5")
+        .attr("stroke", isZero ? "#2a2a3d" : "#0bae0f")
         .attr("stroke-width", isZero ? 1 : stroke)
         .attr("stroke-opacity", isZero ? 0.3 : 0.55)
         .attr("stroke-linecap", "round");
@@ -597,7 +597,7 @@ export function OrchestrationDAG({ data, onNodeClick, selectedNode }: Orchestrat
       .attr("height", (d) => d.height + 6)
       .attr("rx", NODE_RX + 3)
       .attr("fill", "none")
-      .attr("stroke", "#6366f1")
+      .attr("stroke", "#18FF62")
       .attr("stroke-width", 2)
       .attr("filter", "url(#glow)")
       .attr("opacity", 0.8);
@@ -616,7 +616,7 @@ export function OrchestrationDAG({ data, onNodeClick, selectedNode }: Orchestrat
         return `url(#${KIND_GRADIENTS[d.kind].id})`;
       })
       .attr("stroke", (d) => {
-        if (d.id === selectedNode) return "#6366f1";
+        if (d.id === selectedNode) return "#18FF62";
         if (d.kind === "outcome" && d.meta?.status) {
           return outcomeColorSet(d.meta.status).stroke;
         }
@@ -736,7 +736,7 @@ export function OrchestrationDAG({ data, onNodeClick, selectedNode }: Orchestrat
         <div className="flex items-center gap-1.5 ml-2">
           <span
             className="inline-block h-[2px] w-8 rounded flex-shrink-0"
-            style={{ background: "linear-gradient(to right, #312e81, #4f46e5)" }}
+            style={{ background: "linear-gradient(to right, #0d2a0d, #0bae0f)" }}
           />
           <span className="text-[11px] text-gray-500">Edge weight = frequency</span>
         </div>
@@ -801,15 +801,15 @@ function DAGTooltip({ tooltip }: { tooltip: TooltipState }) {
 function borderColorForKind(kind: DAGNode["kind"]): string {
   switch (kind) {
     case "session":
-      return "#6366f1";
+      return "#18FF62";
     case "main":
-      return "#3b82f6";
+      return "#18FF62";
     case "subagent":
       return "#22c55e";
     case "nested":
       return "#14b8a6";
     case "outcome":
-      return "#6366f1";
+      return "#18FF62";
   }
 }
 
@@ -855,8 +855,8 @@ function fmtCount(n: number): string {
 // ── Legend data ───────────────────────────────────────────────────────────────
 
 const LEGEND_ITEMS = [
-  { label: "Sessions", color: "#312e81", border: "#6366f1" },
-  { label: "Main Agent", color: "#1e3a5f", border: "#3b82f6" },
+  { label: "Sessions", color: "#0d2a0d", border: "#18FF62" },
+  { label: "Main Agent", color: "#1e3a5f", border: "#18FF62" },
   { label: "Subagent Types", color: "#052e16", border: "#22c55e" },
   { label: "Compactions", color: "#134e4a", border: "#14b8a6" },
   { label: "Completed", color: "#052e16", border: "#16a34a" },

@@ -14,13 +14,13 @@ const LINK_OPACITY_DEFAULT = 0.15;
 const LINK_OPACITY_HOVER = 0.45;
 
 const TOOL_COLORS: Record<string, string> = {
-  Read: "#3b82f6",
+  Read: "#18FF62",
   Write: "#22c55e",
   Edit: "#eab308",
   Bash: "#ef4444",
   Grep: "#a855f7",
   Glob: "#ec4899",
-  Agent: "#6366f1",
+  Agent: "#18FF62",
 };
 const COLOR_DEFAULT = "#64748b";
 
@@ -395,13 +395,13 @@ function Tooltip({ x, y, content }: { x: number; y: number; content: string }) {
 // ── Legend ────────────────────────────────────────────────────────────────────
 
 const LEGEND_ITEMS: Array<{ label: string; color: string }> = [
-  { label: "Read", color: "#3b82f6" },
+  { label: "Read", color: "#18FF62" },
   { label: "Write", color: "#22c55e" },
   { label: "Edit", color: "#eab308" },
   { label: "Bash", color: "#ef4444" },
   { label: "Grep", color: "#a855f7" },
   { label: "Glob", color: "#ec4899" },
-  { label: "Agent", color: "#6366f1" },
+  { label: "Agent", color: "#18FF62" },
   { label: "Other", color: "#64748b" },
 ];
 

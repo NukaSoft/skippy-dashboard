@@ -2,11 +2,11 @@ import type { ConcurrencyData, ConcurrencyLane } from "../../lib/types";
 
 // ── Color palette ─────────────────────────────────────────────────────────────
 
-const MAIN_COLOR = "#6366f1"; // indigo
+const MAIN_COLOR = "#18FF62"; // pip-green
 
 const SUBAGENT_PALETTE = [
   "#10b981", // emerald
-  "#3b82f6", // blue
+  "#18FF62", // blue
   "#f59e0b", // amber
   "#f43f5e", // rose
   "#06b6d4", // cyan

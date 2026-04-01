@@ -150,7 +150,7 @@ export function Dashboard() {
             allSubagents.filter((a) => a.status === "working" || a.status === "connected").length
           }
           icon={GitBranch}
-          accentColor="text-violet-400"
+          accentColor="text-pip-dim"
           trend={`${allSubagents.length} total`}
         />
         <StatCard
@@ -165,7 +165,7 @@ export function Dashboard() {
           value={stats ? fmt(stats.total_events) : "-"}
           raw={stats ? stats.total_events.toLocaleString() : undefined}
           icon={Activity}
-          accentColor="text-violet-400"
+          accentColor="text-pip-dim"
         />
         <StatCard
           label="Total Cost"
@@ -236,10 +236,10 @@ export function Dashboard() {
                       </div>
 
                       {hasChildren && isExpanded && (
-                        <div className="ml-6 mt-1 space-y-1 border-l-2 border-violet-500/20 pl-3">
+                        <div className="ml-6 mt-1 space-y-1 border-l-2 border-accent/20 pl-3">
                           {children.map((sub) => (
                             <div key={sub.id} className="flex items-center gap-2">
-                              <GitBranch className="w-3 h-3 text-violet-400 flex-shrink-0" />
+                              <GitBranch className="w-3 h-3 text-pip-dim flex-shrink-0" />
                               <div className="flex-1">
                                 <AgentCard agent={sub} />
                               </div>
@@ -251,7 +251,7 @@ export function Dashboard() {
                       {hasChildren && !isExpanded && (
                         <button
                           onClick={() => setExpandedAgents((prev) => new Set([...prev, main.id]))}
-                          className="ml-7 mt-1 text-[11px] text-violet-400 hover:text-violet-300 transition-colors"
+                          className="ml-7 mt-1 text-[11px] text-pip-dim hover:text-violet-300 transition-colors"
                         >
                           {children.length} subagent{children.length !== 1 ? "s" : ""}
                           {activeCount > 0 && (

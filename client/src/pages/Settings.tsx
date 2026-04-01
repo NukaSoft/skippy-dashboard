@@ -157,7 +157,7 @@ function Toggle({
         aria-checked={checked}
         onClick={() => onChange(!checked)}
         className={`relative inline-flex h-5 w-9 flex-shrink-0 rounded-full border-2 border-transparent transition-colors duration-200 ${
-          checked ? "bg-blue-500" : "bg-surface-4"
+          checked ? "bg-accent" : "bg-surface-4"
         }`}
       >
         <span
@@ -656,7 +656,7 @@ export function Settings() {
                         <button
                           onClick={() => startEdit(rule)}
                           disabled={isEditing}
-                          className="p-1.5 rounded-md text-gray-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors disabled:opacity-30"
+                          className="p-1.5 rounded-md text-gray-400 hover:text-accent hover:bg-accent/10 transition-colors disabled:opacity-30"
                           title="Edit"
                         >
                           <Pencil className="w-3.5 h-3.5" />
@@ -763,12 +763,12 @@ export function Settings() {
               <div
                 className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${
                   notifPrefs.enabled
-                    ? "bg-blue-500/10 border border-blue-500/20"
+                    ? "bg-accent/10 border border-accent/20"
                     : "bg-surface-2 border border-border"
                 }`}
               >
                 {notifPrefs.enabled ? (
-                  <BellRing className="w-5 h-5 text-blue-400" />
+                  <BellRing className="w-5 h-5 text-accent" />
                 ) : (
                   <BellOff className="w-5 h-5 text-gray-500" />
                 )}
@@ -827,7 +827,7 @@ export function Settings() {
                   />
                 </div>
                 <div className="flex items-center gap-3 bg-surface-2 rounded-lg px-3.5 py-3">
-                  <CheckCircle className="w-4 h-4 text-violet-400 flex-shrink-0" />
+                  <CheckCircle className="w-4 h-4 text-pip-dim flex-shrink-0" />
                   <Toggle
                     checked={notifPrefs.onSessionComplete}
                     onChange={(v) => updateNotifPrefs({ onSessionComplete: v })}
@@ -843,7 +843,7 @@ export function Settings() {
                   />
                 </div>
                 <div className="flex items-center gap-3 bg-surface-2 rounded-lg px-3.5 py-3">
-                  <GitBranch className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                  <GitBranch className="w-4 h-4 text-accent flex-shrink-0" />
                   <Toggle
                     checked={notifPrefs.onSubagentSpawn}
                     onChange={(v) => updateNotifPrefs({ onSubagentSpawn: v })}
@@ -908,9 +908,9 @@ export function Settings() {
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
                 {(() => {
                   const tableIcons: Record<string, React.ReactNode> = {
-                    sessions: <Layers className="w-4 h-4 text-blue-400" />,
+                    sessions: <Layers className="w-4 h-4 text-accent" />,
                     agents: <Users className="w-4 h-4 text-emerald-400" />,
-                    events: <Activity className="w-4 h-4 text-violet-400" />,
+                    events: <Activity className="w-4 h-4 text-pip-dim" />,
                     token_usage: <Coins className="w-4 h-4 text-amber-400" />,
                     model_pricing: <BarChart3 className="w-4 h-4 text-cyan-400" />,
                   };
@@ -922,9 +922,9 @@ export function Settings() {
                     model_pricing: "pricing rules",
                   };
                   const tableColors: Record<string, string> = {
-                    sessions: "border-blue-500/20",
+                    sessions: "border-accent/20",
                     agents: "border-emerald-500/20",
-                    events: "border-violet-500/20",
+                    events: "border-accent/20",
                     token_usage: "border-amber-500/20",
                     model_pricing: "border-cyan-500/20",
                   };
@@ -945,9 +945,9 @@ export function Settings() {
                     </div>
                   ));
                 })()}
-                <div className="bg-surface-2 rounded-lg px-3 py-3 border-l-2 border-indigo-500/20">
+                <div className="bg-surface-2 rounded-lg px-3 py-3 border-l-2 border-accent/20">
                   <div className="flex items-center gap-2 mb-1.5">
-                    <HardDrive className="w-4 h-4 text-indigo-400" />
+                    <HardDrive className="w-4 h-4 text-accent" />
                     <p className="text-[11px] text-gray-500 uppercase tracking-wider">DB Size</p>
                   </div>
                   <p className="text-xl font-semibold text-gray-200">
@@ -1094,7 +1094,7 @@ export function Settings() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               <div className="bg-surface-2 rounded-lg px-4 py-3">
                 <div className="flex items-center gap-2 mb-1.5">
-                  <Clock className="w-4 h-4 text-blue-400" />
+                  <Clock className="w-4 h-4 text-accent" />
                   <p className="text-[11px] text-gray-500 uppercase tracking-wider">Uptime</p>
                 </div>
                 <p className="text-sm font-semibold text-gray-200">
@@ -1112,7 +1112,7 @@ export function Settings() {
               </div>
               <div className="bg-surface-2 rounded-lg px-4 py-3">
                 <div className="flex items-center gap-2 mb-1.5">
-                  <Globe className="w-4 h-4 text-violet-400" />
+                  <Globe className="w-4 h-4 text-pip-dim" />
                   <p className="text-[11px] text-gray-500 uppercase tracking-wider">Platform</p>
                 </div>
                 <p className="text-sm font-semibold text-gray-200">{sysInfo.server.platform}</p>

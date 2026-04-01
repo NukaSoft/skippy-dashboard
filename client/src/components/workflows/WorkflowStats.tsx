@@ -62,13 +62,13 @@ export function WorkflowStats({ stats }: WorkflowStatsProps) {
         label="Avg Agent Depth"
         value={stats.avgDepth.toFixed(1)}
         icon={GitFork}
-        accentClass="text-indigo-400"
+        accentClass="text-accent"
       />
       <StatCard
         label="Avg Subagents / Session"
         value={stats.avgSubagents.toFixed(1)}
         icon={Users}
-        accentClass="text-blue-400"
+        accentClass="text-accent"
       />
       <StatCard
         label="Agent Success Rate"
@@ -80,7 +80,7 @@ export function WorkflowStats({ stats }: WorkflowStatsProps) {
         label="Most Common Flow"
         value={topFlowLabel}
         icon={ArrowRightLeft}
-        accentClass="text-violet-400"
+        accentClass="text-pip-dim"
       />
       <StatCard
         label="Avg Compactions"

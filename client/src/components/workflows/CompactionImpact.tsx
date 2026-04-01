@@ -39,7 +39,7 @@ function renderBars(svg: SVGSVGElement, perSession: CompactionImpactData["perSes
     .attr("y1", "0%")
     .attr("x2", "0%")
     .attr("y2", "100%");
-  grad.append("stop").attr("offset", "0%").attr("stop-color", "#818cf8");
+  grad.append("stop").attr("offset", "0%").attr("stop-color", "#0bae0f");
   grad
     .append("stop")
     .attr("offset", "100%")
