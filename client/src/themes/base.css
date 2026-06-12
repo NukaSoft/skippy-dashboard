@@ -205,6 +205,35 @@ a:hover { color: var(--pip-primary); }
 /* --- Dashed-divider idiom: the signature data texture --- */
 .sk-kv > * + * { border-top: 1px dashed var(--pip-border); }
 
+/* --- Tables, app-wide: yellow uppercase headers over a 2px strong rule,
+       dashed row dividers, mono data cells --- */
+thead th {
+  font-family: var(--pip-font-heading) !important;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--pip-amber) !important;
+}
+thead tr { border-bottom: 2px solid var(--pip-border-light); }
+tbody tr { border-bottom: 1px dashed var(--pip-border); }
+tbody tr:hover { background: rgba(245, 230, 200, 0.045); }
+tbody td { font-family: var(--pip-font-data); font-variant-numeric: tabular-nums; }
+
+/* --- Periscope: animated CSS static for the empty well
+       (the one sanctioned ambient animation) --- */
+.sk-static {
+  background-image:
+    repeating-radial-gradient(circle at 17% 32%, rgba(245,230,200,0.06) 0 1px, transparent 1px 3px),
+    repeating-radial-gradient(circle at 73% 64%, rgba(245,230,200,0.05) 0 1px, transparent 1px 2px),
+    repeating-linear-gradient(0deg, rgba(0,0,0,0.18) 0 1px, transparent 1px 3px);
+  animation: skStatic 0.45s steps(3) infinite;
+}
+@keyframes skStatic {
+  0%   { background-position: 0 0, 0 0, 0 0; }
+  50%  { background-position: 13px 7px, -9px 4px, 0 1px; }
+  100% { background-position: -7px -11px, 6px -8px, 0 2px; }
+}
+
 /* --- Segmented bar: flat fills --- */
 .pip-seg-bar {
   display: flex;

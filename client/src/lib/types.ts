@@ -440,15 +440,15 @@ export const STATUS_CONFIG: Record<
   },
   working: {
     label: "Working",
-    color: "text-emerald-400",
-    bg: "bg-emerald-500/10 border-emerald-500/20",
-    dot: "bg-emerald-400",
+    color: "text-yellow-400",
+    bg: "bg-yellow-500/10 border-yellow-500/20",
+    dot: "bg-yellow-400",
   },
   completed: {
     label: "Completed",
-    color: "text-violet-400",
-    bg: "bg-violet-500/10 border-violet-500/20",
-    dot: "bg-violet-400",
+    color: "text-emerald-400",
+    bg: "bg-emerald-500/10 border-emerald-500/20",
+    dot: "bg-emerald-400",
   },
   error: {
     label: "Error",
@@ -464,18 +464,18 @@ export const SESSION_STATUS_CONFIG: Record<
 > = {
   active: {
     label: "Active",
-    color: "text-emerald-400",
-    bg: "bg-emerald-500/10 border-emerald-500/20",
+    color: "text-yellow-400",
+    bg: "bg-yellow-500/10 border-yellow-500/20",
   },
   completed: {
     label: "Completed",
-    color: "text-violet-400",
-    bg: "bg-violet-500/10 border-violet-500/20",
+    color: "text-emerald-400",
+    bg: "bg-emerald-500/10 border-emerald-500/20",
   },
   error: { label: "Error", color: "text-red-400", bg: "bg-red-500/10 border-red-500/20" },
   abandoned: {
     label: "Abandoned",
-    color: "text-yellow-400",
-    bg: "bg-yellow-500/10 border-yellow-500/20",
+    color: "text-gray-400",
+    bg: "bg-gray-500/10 border-gray-500/20",
   },
 };

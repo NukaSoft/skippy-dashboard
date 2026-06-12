@@ -1,7 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  LayoutDashboard,
   FolderOpen,
   Bot,
   Zap,
@@ -19,6 +18,10 @@ import { StatCard } from "../components/StatCard";
 import { AgentCard } from "../components/AgentCard";
 import { AgentStatusBadge } from "../components/StatusBadge";
 import { EmptyState } from "../components/EmptyState";
+import { PageHeader } from "../components/PageHeader";
+import { Hero } from "../components/Hero";
+import { Periscope } from "../components/Periscope";
+import { stardate } from "../lib/stardate";
 import { timeAgo, fmt, fmtCost } from "../lib/format";
 import type { Stats, Agent, DashboardEvent, WSMessage } from "../lib/types";
 
@@ -110,42 +113,49 @@ export function Dashboard() {
     );
   }
 
+  const workingCount = activeAgents.filter(
+    (a) => a.status === "working" || a.status === "connected"
+  ).length;
+  const deckhandCount = allSubagents.length;
+  const narration =
+    workingCount === 0
+      ? "All stations quiet.  No voyages underway, which either means peace or that someone unplugged me.  Assuming peace."
+      : `${workingCount === 1 ? "One voyage" : `${workingCount} voyages`} underway, ${
+          deckhandCount === 0 ? "no deckhands mustered" : `${deckhandCount} deckhand${deckhandCount === 1 ? "" : "s"} accounted for`
+        }, and nobody has broken anything recently.  A record.`;
+
   return (
-    <div className="space-y-8 animate-fade-in">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-accent/15 flex items-center justify-center">
-            <LayoutDashboard className="w-4.5 h-4.5 text-accent" />
-          </div>
-          <div>
-            <h1 className="text-lg font-semibold text-gray-100">Dashboard</h1>
-            <p className="text-xs text-gray-500">
-              Real-time overview of Claude Code agent activity
-            </p>
-          </div>
-        </div>
-        <button onClick={load} className="btn-ghost flex-shrink-0">
-          <RefreshCw className="w-4 h-4" /> Refresh
-        </button>
-      </div>
+    <div className="space-y-6 animate-fade-in">
+      <PageHeader
+        eyebrow="Station 01 — STAT"
+        title="The Bridge"
+        sub={`master control reporting · stardate ${stardate()}`}
+        actions={
+          <button onClick={load} className="btn-ghost flex-shrink-0">
+            <RefreshCw className="w-4 h-4" strokeWidth={1.75} /> Refresh
+          </button>
+        }
+      />
+
+      <Hero narration={narration} headline={workingCount === 0 ? "All quiet on the bridge." : "Underway and making way."} />
 
       {/* Stats grid — 2 rows of 3 avoids the 6-column squeeze */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         <StatCard
-          label="Total Sessions"
+          label="Voyages"
           value={stats ? fmt(stats.total_sessions) : "-"}
           raw={stats ? stats.total_sessions.toLocaleString() : undefined}
           icon={FolderOpen}
           trend={stats ? `${stats.active_sessions} active` : undefined}
         />
         <StatCard
-          label="Active Agents"
+          label="Crew Active"
           value={stats?.active_agents ?? "-"}
           icon={Bot}
-          accentColor="text-emerald-400"
+          accentColor="text-yellow-400"
         />
         <StatCard
-          label="Active Subagents"
+          label="Deckhands"
           value={
             allSubagents.filter((a) => a.status === "working" || a.status === "connected").length
           }
@@ -161,14 +171,14 @@ export function Dashboard() {
           accentColor="text-yellow-400"
         />
         <StatCard
-          label="Total Events"
+          label="Events Total"
           value={stats ? fmt(stats.total_events) : "-"}
           raw={stats ? stats.total_events.toLocaleString() : undefined}
           icon={Activity}
           accentColor="text-pip-dim"
         />
         <StatCard
-          label="Total Cost"
+          label="Spend"
           value={totalCost !== null ? fmtCost(totalCost) : "-"}
           raw={
             totalCost !== null
@@ -176,24 +186,24 @@ export function Dashboard() {
               : undefined
           }
           icon={DollarSign}
-          accentColor="text-emerald-400"
+          accentColor="text-ok"
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 min-w-0">
-        {/* Active agents */}
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 min-w-0">
+        {/* Active crew */}
         <div className="min-w-0 overflow-hidden">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-medium text-gray-300">Active Agents</h3>
+            <h3 className="text-[0.6875rem] text-rad">Active Crew</h3>
             <button onClick={() => navigate("/kanban")} className="btn-ghost text-xs">
-              View Board <ArrowRight className="w-3 h-3" />
+              View Board <ArrowRight className="w-3 h-3" strokeWidth={1.75} />
             </button>
           </div>
           {activeAgents.length === 0 ? (
             <EmptyState
               icon={Bot}
-              title="No active agents"
-              description="Agents will appear here when a Claude Code session is running."
+              title="No crew on deck"
+              description="Nothing here.  The crew is either working or pretending to."
             />
           ) : (
             <div className="space-y-2">
@@ -274,19 +284,23 @@ export function Dashboard() {
           )}
         </div>
 
-        {/* Recent activity */}
-        <div className="min-w-0 overflow-hidden">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-medium text-gray-300">Recent Activity</h3>
+        {/* Right column: Periscope + Captain's log */}
+        <div className="min-w-0 overflow-hidden space-y-4">
+          <div>
+            <h3 className="text-[0.6875rem] text-rad mb-4">Periscope</h3>
+            <Periscope />
+          </div>
+          <div className="flex items-center justify-between mb-0">
+            <h3 className="text-[0.6875rem] text-rad">Captain's Log</h3>
             <button onClick={() => navigate("/activity")} className="btn-ghost text-xs">
-              View All <ArrowRight className="w-3 h-3" />
+              View All <ArrowRight className="w-3 h-3" strokeWidth={1.75} />
             </button>
           </div>
           {recentEvents.length === 0 ? (
             <EmptyState
               icon={Activity}
-              title="No activity yet"
-              description="Events from Claude Code sessions will stream here in real-time."
+              title="Log is empty"
+              description="Everything that happens here, happens because I allow it."
             />
           ) : (
             <div className="card divide-y divide-border">

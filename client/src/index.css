@@ -35,27 +35,34 @@
 
 @layer components {
   .card {
-    @apply bg-surface-3 border border-border rounded-xl;
+    @apply bg-surface-2 border border-border rounded-lg;
   }
 
   .card-hover {
-    @apply card transition-all duration-200 hover:border-border-light hover:bg-surface-4;
+    @apply card transition-colors duration-150 hover:border-border-light hover:bg-surface-3;
   }
 
   .btn-primary {
-    @apply inline-flex items-center gap-2 px-4 py-2 bg-accent hover:bg-accent-hover text-white text-sm font-medium rounded-lg transition-colors duration-150;
+    @apply inline-flex items-center gap-2 px-4 py-2 bg-accent hover:bg-accent-hover active:bg-accent-pressed text-pip-cream text-sm rounded-full transition-all duration-150 font-heading font-bold uppercase tracking-[0.12em] border-2 border-ink hover:-translate-y-px active:translate-y-0;
+    box-shadow: 2px 2px 0 var(--pip-ink);
+  }
+  .btn-primary:active {
+    box-shadow: none;
   }
 
   .btn-ghost {
-    @apply inline-flex items-center gap-2 px-3 py-1.5 text-sm text-gray-400 hover:text-gray-200 hover:bg-surface-4 rounded-lg transition-colors duration-150;
+    @apply inline-flex items-center gap-2 px-3 py-1.5 text-sm text-gray-400 hover:text-gray-200 hover:bg-surface-3 rounded-full transition-colors duration-150 border border-border;
   }
 
   .badge {
-    @apply inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-full border;
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 text-xs rounded-full border font-mono;
   }
 
   .input {
-    @apply bg-surface-2 border border-border rounded-lg px-3 py-2 text-sm text-gray-200 placeholder-gray-500 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-colors;
+    @apply bg-surface-2 border border-border rounded-md px-3 py-2 text-sm text-gray-200 placeholder-gray-500 focus:outline-none transition-colors font-mono;
+  }
+  .input:focus {
+    border-color: var(--pip-amber);
   }
 }
 
