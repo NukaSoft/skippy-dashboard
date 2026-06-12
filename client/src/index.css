@@ -1,4 +1,4 @@
-@import './pipboy.css';
+@import './themes/index.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -55,7 +55,7 @@
   }
 
   .input {
-    @apply bg-surface-2 border border-border rounded-lg px-3 py-2 text-sm text-gray-200 placeholder-gray-500 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/30 transition-colors;
+    @apply bg-surface-2 border border-border rounded-lg px-3 py-2 text-sm text-gray-200 placeholder-gray-500 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-colors;
   }
 }
 

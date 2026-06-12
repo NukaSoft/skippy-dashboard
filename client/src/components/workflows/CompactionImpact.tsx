@@ -1,6 +1,7 @@
 import { useRef, useEffect } from "react";
 import * as d3 from "d3";
 import type { CompactionImpactData } from "../../lib/types";
+import { getThemeColors } from "../../lib/theme";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -39,7 +40,7 @@ function renderBars(svg: SVGSVGElement, perSession: CompactionImpactData["perSes
     .attr("y1", "0%")
     .attr("x2", "0%")
     .attr("y2", "100%");
-  grad.append("stop").attr("offset", "0%").attr("stop-color", "#0bae0f");
+  grad.append("stop").attr("offset", "0%").attr("stop-color", getThemeColors().dim);
   grad
     .append("stop")
     .attr("offset", "100%")

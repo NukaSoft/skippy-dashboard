@@ -1,0 +1,31 @@
+/* LCARS Theme — Star Trek Console */
+body.theme-lcars {
+  --pip-primary: #FF9900;
+  --pip-dim: #CC7700;
+  --pip-dark: #332200;
+  --pip-glow: rgba(255, 153, 0, 0.2);
+  --pip-amber: #CC99CC;
+  --pip-crit: #FF0000;
+  --pip-bg: #000000;
+  --pip-surface-1: #0A0A0A;
+  --pip-surface-2: #111111;
+  --pip-surface-3: #1A1A1A;
+  --pip-surface-4: #252525;
+  --pip-surface-5: #333333;
+  --pip-border: #FF9900;
+  --pip-border-light: #CC99CC;
+  --pip-data: #9999FF;
+  --pip-scanline: rgba(0, 0, 0, 0.05);
+  --pip-font-heading: 'Orbitron', 'Monofonto', monospace;
+  --pip-font-data: 'Rajdhani', 'Roboto Mono', sans-serif;
+}
+
+body.theme-lcars::after {
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(0, 0, 0, 0.5) 100%);
+}
+
+body.theme-lcars .nav-active {
+  color: #CC99CC !important;
+  border-left-color: #CC99CC !important;
+  background: rgba(204, 153, 204, 0.08) !important;
+}

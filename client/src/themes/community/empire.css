@@ -1,0 +1,31 @@
+/* Empire Theme — Death Star Operations */
+body.theme-empire {
+  --pip-primary: #CC0000;
+  --pip-dim: #8B0000;
+  --pip-dark: #1A1A1A;
+  --pip-glow: rgba(204, 0, 0, 0.2);
+  --pip-amber: #FF6B35;
+  --pip-crit: #FF0000;
+  --pip-bg: #0A0A0A;
+  --pip-surface-1: #111111;
+  --pip-surface-2: #1A1A1A;
+  --pip-surface-3: #252525;
+  --pip-surface-4: #333333;
+  --pip-surface-5: #444444;
+  --pip-border: #333333;
+  --pip-border-light: #555555;
+  --pip-data: #CC0000;
+  --pip-scanline: rgba(0, 0, 0, 0.15);
+  --pip-font-heading: 'Orbitron', 'Monofonto', monospace;
+  --pip-font-data: 'Share Tech Mono', 'Roboto Mono', monospace;
+}
+
+body.theme-empire::after {
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.8) 100%);
+}
+
+body.theme-empire .nav-active {
+  color: #CC0000 !important;
+  border-left-color: #CC0000 !important;
+  background: rgba(204, 0, 0, 0.08) !important;
+}

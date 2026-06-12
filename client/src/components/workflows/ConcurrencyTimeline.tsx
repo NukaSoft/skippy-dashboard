@@ -1,12 +1,11 @@
 import type { ConcurrencyData, ConcurrencyLane } from "../../lib/types";
+import { getThemeColors } from "../../lib/theme";
 
 // ── Color palette ─────────────────────────────────────────────────────────────
 
-const MAIN_COLOR = "#18FF62"; // pip-green
-
 const SUBAGENT_PALETTE = [
   "#10b981", // emerald
-  "#18FF62", // blue
+  "#60a5fa", // blue
   "#f59e0b", // amber
   "#f43f5e", // rose
   "#06b6d4", // cyan
@@ -16,8 +15,8 @@ const SUBAGENT_PALETTE = [
 ];
 
 function laneColor(name: string, subagentIndex: number): string {
-  if (name === "Main Agent") return MAIN_COLOR;
-  return SUBAGENT_PALETTE[subagentIndex % SUBAGENT_PALETTE.length] ?? MAIN_COLOR;
+  if (name === "Main Agent") return getThemeColors().primary;
+  return SUBAGENT_PALETTE[subagentIndex % SUBAGENT_PALETTE.length] ?? getThemeColors().primary;
 }
 
 // ── X-axis tick labels ─────────────────────────────────────────────────────────
@@ -117,8 +116,8 @@ export function ConcurrencyTimeline({ data }: ConcurrencyTimelineProps) {
   const coloredLanes = lanes.map((lane) => {
     const isMain = lane.name === "Main Agent";
     const color = isMain
-      ? MAIN_COLOR
-      : (SUBAGENT_PALETTE[subagentIndex % SUBAGENT_PALETTE.length] ?? MAIN_COLOR);
+      ? getThemeColors().primary
+      : (SUBAGENT_PALETTE[subagentIndex % SUBAGENT_PALETTE.length] || getThemeColors().primary);
     if (!isMain) subagentIndex++;
     return { lane, color };
   });

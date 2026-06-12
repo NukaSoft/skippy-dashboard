@@ -2,6 +2,7 @@ import { useRef, useEffect } from "react";
 import * as d3 from "d3";
 import type { ModelDelegationData } from "../../lib/types";
 
+
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
 function modelFamily(name: string): "opus" | "sonnet" | "haiku" | "other" {

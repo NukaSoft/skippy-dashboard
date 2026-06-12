@@ -233,6 +233,441 @@ db.prepare(
 `
 ).run();
 
+// ============================================================
+// Overseer's Dashboard — GTD + PARA tables
+// ============================================================
+db.exec(`
+  -- Universal GTD item (the spine of the system)
+  CREATE TABLE IF NOT EXISTS gtd_items (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    body TEXT,
+    item_type TEXT NOT NULL DEFAULT 'inbox' CHECK(item_type IN (
+      'inbox', 'next_action', 'project', 'waiting_for', 'someday_maybe',
+      'calendar', 'reference', 'archived'
+    )),
+    status TEXT NOT NULL DEFAULT 'active' CHECK(status IN (
+      'active', 'completed', 'cancelled', 'archived', 'incubating'
+    )),
+    para_type TEXT CHECK(para_type IN ('project', 'area', 'resource', 'archive')),
+    context TEXT,
+    energy_level TEXT CHECK(energy_level IN ('high', 'medium', 'low')),
+    time_estimate INTEGER,
+    due_date TEXT,
+    scheduled_date TEXT,
+    completed_date TEXT,
+    delegated_to TEXT,
+    delegated_date TEXT,
+    follow_up_date TEXT,
+    source TEXT,
+    source_ref TEXT,
+    parent_id INTEGER REFERENCES gtd_items(id) ON DELETE SET NULL,
+    area_id INTEGER REFERENCES gtd_areas(id) ON DELETE SET NULL,
+    sort_order INTEGER DEFAULT 0,
+    created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+    updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+    archived_at TEXT
+  );
+
+  -- PARA Areas (ongoing responsibilities)
+  CREATE TABLE IF NOT EXISTS gtd_areas (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL UNIQUE,
+    description TEXT,
+    standard TEXT,
+    status TEXT NOT NULL DEFAULT 'active' CHECK(status IN ('active', 'archived')),
+    parent_area_id INTEGER REFERENCES gtd_areas(id) ON DELETE SET NULL,
+    sort_order INTEGER DEFAULT 0,
+    created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+    updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+    archived_at TEXT
+  );
+
+  -- Tags: GTD contexts + PARA topics unified
+  CREATE TABLE IF NOT EXISTS gtd_tags (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL UNIQUE,
+    tag_type TEXT NOT NULL DEFAULT 'custom' CHECK(tag_type IN (
+      'context', 'topic', 'energy', 'person', 'custom'
+    )),
+    color TEXT,
+    created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+  );
+
+  -- M2M: items <-> tags
+  CREATE TABLE IF NOT EXISTS gtd_item_tags (
+    item_id INTEGER NOT NULL REFERENCES gtd_items(id) ON DELETE CASCADE,
+    tag_id INTEGER NOT NULL REFERENCES gtd_tags(id) ON DELETE CASCADE,
+    PRIMARY KEY (item_id, tag_id)
+  );
+
+  -- Projects: extends items with GTD project metadata
+  CREATE TABLE IF NOT EXISTS gtd_projects (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    item_id INTEGER NOT NULL REFERENCES gtd_items(id) ON DELETE CASCADE,
+    desired_outcome TEXT NOT NULL,
+    area_id INTEGER REFERENCES gtd_areas(id) ON DELETE SET NULL,
+    deadline TEXT,
+    review_date TEXT,
+    progress_pct INTEGER DEFAULT 0,
+    created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+    completed_at TEXT
+  );
+
+  -- People: delegation targets
+  CREATE TABLE IF NOT EXISTS gtd_people (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    email TEXT,
+    role TEXT,
+    company TEXT,
+    is_agent BOOLEAN DEFAULT FALSE,
+    notes TEXT,
+    created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+  );
+
+  -- Waiting For: first-class delegation tracking
+  CREATE TABLE IF NOT EXISTS gtd_waiting_for (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    item_id INTEGER NOT NULL REFERENCES gtd_items(id) ON DELETE CASCADE,
+    person_id INTEGER REFERENCES gtd_people(id) ON DELETE SET NULL,
+    delegated_date TEXT NOT NULL DEFAULT (date('now')),
+    expected_date TEXT,
+    follow_up_date TEXT,
+    follow_up_count INTEGER DEFAULT 0,
+    resolved_date TEXT,
+    notes TEXT
+  );
+
+  -- Captures: raw inbox before clarification
+  CREATE TABLE IF NOT EXISTS gtd_captures (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    raw_text TEXT NOT NULL,
+    source TEXT NOT NULL DEFAULT 'manual',
+    source_ref TEXT,
+    processed BOOLEAN DEFAULT FALSE,
+    item_id INTEGER REFERENCES gtd_items(id) ON DELETE SET NULL,
+    captured_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+    processed_at TEXT
+  );
+
+  -- Reviews: weekly review tracking (the GTD engine)
+  CREATE TABLE IF NOT EXISTS gtd_reviews (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    review_type TEXT NOT NULL CHECK(review_type IN ('daily', 'weekly', 'monthly', 'quarterly')),
+    started_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+    completed_at TEXT,
+    notes TEXT,
+    inbox_cleared BOOLEAN DEFAULT FALSE,
+    projects_reviewed BOOLEAN DEFAULT FALSE,
+    waiting_reviewed BOOLEAN DEFAULT FALSE,
+    someday_reviewed BOOLEAN DEFAULT FALSE,
+    calendar_reviewed BOOLEAN DEFAULT FALSE
+  );
+
+  -- Resources: extends items with PARA resource metadata (books, frameworks, canon)
+  CREATE TABLE IF NOT EXISTS gtd_resources (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    item_id INTEGER NOT NULL REFERENCES gtd_items(id) ON DELETE CASCADE,
+    category TEXT CHECK(category IN ('framework', 'book', 'article', 'playbook', 'template')),
+    author TEXT,
+    source_url TEXT,
+    canon BOOLEAN DEFAULT FALSE,
+    created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+  );
+
+  -- Activity log: audit trail
+  CREATE TABLE IF NOT EXISTS gtd_activity_log (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    item_id INTEGER REFERENCES gtd_items(id) ON DELETE SET NULL,
+    action TEXT NOT NULL,
+    old_value TEXT,
+    new_value TEXT,
+    actor TEXT DEFAULT 'skippy',
+    created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+  );
+
+  -- Indexes
+  CREATE INDEX IF NOT EXISTS idx_gtd_items_type ON gtd_items(item_type);
+  CREATE INDEX IF NOT EXISTS idx_gtd_items_status ON gtd_items(status);
+  CREATE INDEX IF NOT EXISTS idx_gtd_items_para ON gtd_items(para_type);
+  CREATE INDEX IF NOT EXISTS idx_gtd_items_parent ON gtd_items(parent_id);
+  CREATE INDEX IF NOT EXISTS idx_gtd_items_area ON gtd_items(area_id);
+  CREATE INDEX IF NOT EXISTS idx_gtd_items_due ON gtd_items(due_date);
+  CREATE INDEX IF NOT EXISTS idx_gtd_items_context ON gtd_items(context);
+  CREATE INDEX IF NOT EXISTS idx_gtd_items_delegated ON gtd_items(delegated_to);
+  CREATE INDEX IF NOT EXISTS idx_gtd_captures_processed ON gtd_captures(processed);
+  CREATE INDEX IF NOT EXISTS idx_gtd_waiting_followup ON gtd_waiting_for(follow_up_date);
+  CREATE INDEX IF NOT EXISTS idx_gtd_activity_item ON gtd_activity_log(item_id);
+`);
+
+// Seed GTD areas from Pierre's PARA structure
+const areaCount = db.prepare("SELECT COUNT(*) as c FROM gtd_areas").get();
+if (areaCount.c === 0) {
+  const seedArea = db.prepare(
+    "INSERT OR IGNORE INTO gtd_areas (name, description, standard) VALUES (?, ?, ?)"
+  );
+  const areas = [
+    ["Alithya", "FS Consulting Global Director — D365 Field Service practice, AI strategy", "Revenue growth, client satisfaction, team development"],
+    ["NukaSoft", "AI venture — Skippy, crew agents, dashboard, voice, harvester", "Ship weekly, maintain uptime, grow the platform"],
+    ["Powered Wild", "Turo EV rental operation — Tesla fleet, Michigan adventure tours", "Fleet utilization, guest satisfaction, operational efficiency"],
+    ["ASU", "ENG 302: Business Writing (Spring B 2026)", "Submit on time, quality writing"],
+    ["Tech Sales 110", "Personal brand — podcast, blog, 52 Hacks Book", "Consistent content, audience growth"],
+    ["Do Nothing Company", "Commercial AI venture — donothingcompany.com/.ai", "Product launches, revenue"],
+    ["Infrastructure", "Hot Rod, networking, local AI stack, Skippy systems", "Uptime, security, performance"],
+    ["Personal", "Health, family, EBI philanthropy", "Balance and wellbeing"],
+  ];
+  for (const [name, desc, std] of areas) {
+    seedArea.run(name, desc, std);
+  }
+}
+
+// Seed GTD people (crew + key humans)
+const peopleCount = db.prepare("SELECT COUNT(*) as c FROM gtd_people").get();
+if (peopleCount.c === 0) {
+  const seedPerson = db.prepare(
+    "INSERT OR IGNORE INTO gtd_people (name, role, company, is_agent) VALUES (?, ?, ?, ?)"
+  );
+  const people = [
+    // Crew (agents)
+    ["Skippy", "AI Operations Hub", "NukaSoft", true],
+    ["Rodimus", "Primary Automation Agent", "NukaSoft", true],
+    ["Rita", "CMO / Content Creator", "NukaSoft", true],
+    ["Bishop", "Network Operations Admin", "NukaSoft", true],
+    ["Piper", "Bug Triage & Community", "NukaSoft", true],
+    ["Cassian", "Knowledge Harvester", "NukaSoft", true],
+    ["Codsworth", "NAS File Organizer", "NukaSoft", true],
+    ["Jo", "Powered Wild COO", "NukaSoft", true],
+    ["Garrus", "D365 Tactical Advisor", "NukaSoft", true],
+    ["Ratchet", "Local AI Infrastructure", "NukaSoft", true],
+    ["Radar", "Communications & Delivery", "NukaSoft", true],
+    ["Lobot", "Operations Conductor", "NukaSoft", true],
+    ["Hastings", "Counselor & Graphics", "NukaSoft", true],
+    // Key humans
+    ["Pierre", "Founder / Global Director", "Alithya / NukaSoft", false],
+    ["Daniel", "Project Lead — Nutanix & AMD", "Alithya", false],
+    ["César", "Nutanix Account", "Alithya", false],
+    ["John", "Account Team — Data Factory", "Alithya", false],
+    ["Jean-Yves", "MCP Service / AI Integration", "Alithya", false],
+    ["Ismail", "Architect — AMD Montreal F&O", "Alithya", false],
+  ];
+  for (const [name, role, company, isAgent] of people) {
+    seedPerson.run(name, role, company, isAgent ? 1 : 0);
+  }
+}
+
+// Seed GTD tags (contexts + topics)
+const tagCount = db.prepare("SELECT COUNT(*) as c FROM gtd_tags").get();
+if (tagCount.c === 0) {
+  const seedTag = db.prepare(
+    "INSERT OR IGNORE INTO gtd_tags (name, tag_type, color) VALUES (?, ?, ?)"
+  );
+  const tags = [
+    // GTD contexts
+    ["@computer", "context", "#10b981"],
+    ["@phone", "context", "#3b82f6"],
+    ["@office", "context", "#8b5cf6"],
+    ["@home", "context", "#f59e0b"],
+    ["@errands", "context", "#ef4444"],
+    ["@anywhere", "context", "#6b7280"],
+    // Topics
+    ["#field-service", "topic", "#06b6d4"],
+    ["#d365", "topic", "#0ea5e9"],
+    ["#ai", "topic", "#a855f7"],
+    ["#infrastructure", "topic", "#64748b"],
+    ["#content", "topic", "#ec4899"],
+    ["#seo", "topic", "#14b8a6"],
+    ["#sales", "topic", "#f97316"],
+    ["#nuka-soft-brand", "topic", "#84cc16"],
+    ["#crew", "topic", "#e879f9"],
+    ["#eng302", "topic", "#fbbf24"],
+    // Energy
+    ["energy:high", "energy", "#ef4444"],
+    ["energy:medium", "energy", "#f59e0b"],
+    ["energy:low", "energy", "#10b981"],
+  ];
+  for (const [name, type, color] of tags) {
+    seedTag.run(name, type, color);
+  }
+}
+
+// ============================================================
+// GTD Prepared Statements
+// ============================================================
+const gtdStmts = {
+  // Items
+  listItems: db.prepare(`
+    SELECT i.*, a.name as area_name,
+      GROUP_CONCAT(DISTINCT t.name) as tags
+    FROM gtd_items i
+    LEFT JOIN gtd_areas a ON i.area_id = a.id
+    LEFT JOIN gtd_item_tags it ON i.id = it.item_id
+    LEFT JOIN gtd_tags t ON it.tag_id = t.id
+    WHERE (@type IS NULL OR i.item_type = @type)
+      AND (@status IS NULL OR i.status = @status)
+      AND (@area_id IS NULL OR i.area_id = @area_id)
+      AND (@delegated_to IS NULL OR i.delegated_to = @delegated_to)
+      AND (@context IS NULL OR i.context = @context)
+    GROUP BY i.id
+    ORDER BY i.sort_order ASC, i.created_at DESC
+    LIMIT @limit OFFSET @offset
+  `),
+  getItem: db.prepare(`
+    SELECT i.*, a.name as area_name
+    FROM gtd_items i
+    LEFT JOIN gtd_areas a ON i.area_id = a.id
+    WHERE i.id = ?
+  `),
+  insertItem: db.prepare(`
+    INSERT INTO gtd_items (title, body, item_type, status, para_type, context, energy_level,
+      time_estimate, due_date, scheduled_date, delegated_to, delegated_date, follow_up_date,
+      source, source_ref, parent_id, area_id, sort_order)
+    VALUES (@title, @body, @item_type, @status, @para_type, @context, @energy_level,
+      @time_estimate, @due_date, @scheduled_date, @delegated_to, @delegated_date, @follow_up_date,
+      @source, @source_ref, @parent_id, @area_id, @sort_order)
+  `),
+  updateItem: db.prepare(`
+    UPDATE gtd_items SET
+      title = COALESCE(@title, title),
+      body = COALESCE(@body, body),
+      item_type = COALESCE(@item_type, item_type),
+      status = COALESCE(@status, status),
+      para_type = COALESCE(@para_type, para_type),
+      context = COALESCE(@context, context),
+      energy_level = COALESCE(@energy_level, energy_level),
+      time_estimate = COALESCE(@time_estimate, time_estimate),
+      due_date = COALESCE(@due_date, due_date),
+      scheduled_date = COALESCE(@scheduled_date, scheduled_date),
+      delegated_to = COALESCE(@delegated_to, delegated_to),
+      follow_up_date = COALESCE(@follow_up_date, follow_up_date),
+      parent_id = COALESCE(@parent_id, parent_id),
+      area_id = COALESCE(@area_id, area_id),
+      sort_order = COALESCE(@sort_order, sort_order),
+      updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')
+    WHERE id = @id
+  `),
+  completeItem: db.prepare(`
+    UPDATE gtd_items SET
+      status = 'completed',
+      completed_date = strftime('%Y-%m-%dT%H:%M:%fZ', 'now'),
+      updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')
+    WHERE id = ?
+  `),
+  archiveItem: db.prepare(`
+    UPDATE gtd_items SET
+      status = 'archived',
+      item_type = 'archived',
+      archived_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now'),
+      updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')
+    WHERE id = ?
+  `),
+  deleteItem: db.prepare("DELETE FROM gtd_items WHERE id = ?"),
+
+  // Item tags
+  addItemTag: db.prepare("INSERT OR IGNORE INTO gtd_item_tags (item_id, tag_id) VALUES (?, ?)"),
+  removeItemTag: db.prepare("DELETE FROM gtd_item_tags WHERE item_id = ? AND tag_id = ?"),
+  clearItemTags: db.prepare("DELETE FROM gtd_item_tags WHERE item_id = ?"),
+  getItemTags: db.prepare(`
+    SELECT t.* FROM gtd_tags t
+    JOIN gtd_item_tags it ON t.id = it.tag_id
+    WHERE it.item_id = ?
+  `),
+
+  // Areas
+  listAreas: db.prepare("SELECT * FROM gtd_areas WHERE status = 'active' ORDER BY sort_order ASC, name ASC"),
+  getArea: db.prepare("SELECT * FROM gtd_areas WHERE id = ?"),
+  insertArea: db.prepare("INSERT INTO gtd_areas (name, description, standard, parent_area_id) VALUES (?, ?, ?, ?)"),
+  updateArea: db.prepare(`
+    UPDATE gtd_areas SET
+      name = COALESCE(?, name), description = COALESCE(?, description),
+      standard = COALESCE(?, standard), status = COALESCE(?, status),
+      updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')
+    WHERE id = ?
+  `),
+
+  // Tags
+  listTags: db.prepare("SELECT * FROM gtd_tags ORDER BY tag_type, name"),
+  getTagByName: db.prepare("SELECT * FROM gtd_tags WHERE name = ?"),
+  insertTag: db.prepare("INSERT INTO gtd_tags (name, tag_type, color) VALUES (?, ?, ?)"),
+
+  // People
+  listPeople: db.prepare("SELECT * FROM gtd_people ORDER BY is_agent DESC, name ASC"),
+  getPersonByName: db.prepare("SELECT * FROM gtd_people WHERE LOWER(name) = LOWER(?)"),
+
+  // Projects
+  listProjects: db.prepare(`
+    SELECT p.*, i.title, i.status as item_status, i.due_date, a.name as area_name,
+      (SELECT COUNT(*) FROM gtd_items ci WHERE ci.parent_id = i.id AND ci.status = 'active') as action_count,
+      (SELECT MIN(ci.due_date) FROM gtd_items ci WHERE ci.parent_id = i.id AND ci.status = 'active' AND ci.due_date IS NOT NULL) as next_due
+    FROM gtd_projects p
+    JOIN gtd_items i ON p.item_id = i.id
+    LEFT JOIN gtd_areas a ON p.area_id = a.id
+    WHERE i.status = 'active'
+    ORDER BY p.deadline ASC NULLS LAST, i.created_at DESC
+  `),
+  insertProject: db.prepare("INSERT INTO gtd_projects (item_id, desired_outcome, area_id, deadline, review_date) VALUES (?, ?, ?, ?, ?)"),
+
+  // Waiting For
+  listWaiting: db.prepare(`
+    SELECT w.*, i.title, p.name as person_name, p.is_agent,
+      CAST(julianday('now') - julianday(w.delegated_date) AS INTEGER) as days_waiting
+    FROM gtd_waiting_for w
+    JOIN gtd_items i ON w.item_id = i.id
+    LEFT JOIN gtd_people p ON w.person_id = p.id
+    WHERE w.resolved_date IS NULL
+    ORDER BY w.follow_up_date ASC NULLS LAST
+  `),
+  insertWaiting: db.prepare("INSERT INTO gtd_waiting_for (item_id, person_id, expected_date, follow_up_date, notes) VALUES (?, ?, ?, ?, ?)"),
+  resolveWaiting: db.prepare("UPDATE gtd_waiting_for SET resolved_date = date('now') WHERE item_id = ?"),
+
+  // Captures (raw inbox)
+  listCaptures: db.prepare("SELECT * FROM gtd_captures WHERE processed = FALSE ORDER BY captured_at DESC"),
+  insertCapture: db.prepare("INSERT INTO gtd_captures (raw_text, source, source_ref) VALUES (?, ?, ?)"),
+  processCapture: db.prepare("UPDATE gtd_captures SET processed = TRUE, item_id = ?, processed_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now') WHERE id = ?"),
+
+  // Reviews
+  getLastReview: db.prepare("SELECT * FROM gtd_reviews WHERE review_type = ? ORDER BY started_at DESC LIMIT 1"),
+  insertReview: db.prepare("INSERT INTO gtd_reviews (review_type) VALUES (?)"),
+  completeReview: db.prepare(`
+    UPDATE gtd_reviews SET
+      completed_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now'),
+      notes = ?, inbox_cleared = ?, projects_reviewed = ?,
+      waiting_reviewed = ?, someday_reviewed = ?, calendar_reviewed = ?
+    WHERE id = ?
+  `),
+
+  // Resources (business canon)
+  listResources: db.prepare(`
+    SELECT r.*, i.title, i.body FROM gtd_resources r
+    JOIN gtd_items i ON r.item_id = i.id
+    WHERE i.status = 'active'
+    ORDER BY r.canon DESC, i.title ASC
+  `),
+  listCanon: db.prepare(`
+    SELECT r.*, i.title, i.body FROM gtd_resources r
+    JOIN gtd_items i ON r.item_id = i.id
+    WHERE r.canon = TRUE AND i.status = 'active'
+    ORDER BY i.title ASC
+  `),
+  insertResource: db.prepare("INSERT INTO gtd_resources (item_id, category, author, source_url, canon) VALUES (?, ?, ?, ?, ?)"),
+
+  // Activity log
+  logActivity: db.prepare("INSERT INTO gtd_activity_log (item_id, action, old_value, new_value, actor) VALUES (?, ?, ?, ?, ?)"),
+
+  // Stats (Overseer dashboard)
+  gtdStats: db.prepare(`
+    SELECT
+      (SELECT COUNT(*) FROM gtd_items WHERE item_type = 'inbox' AND status = 'active') as inbox_count,
+      (SELECT COUNT(*) FROM gtd_captures WHERE processed = FALSE) as raw_captures,
+      (SELECT COUNT(*) FROM gtd_items WHERE item_type = 'next_action' AND status = 'active') as next_actions,
+      (SELECT COUNT(*) FROM gtd_items WHERE item_type = 'project' AND status = 'active') as active_projects,
+      (SELECT COUNT(*) FROM gtd_items WHERE item_type = 'waiting_for' AND status = 'active') as waiting_count,
+      (SELECT COUNT(*) FROM gtd_items WHERE item_type = 'someday_maybe' AND status = 'incubating') as someday_count,
+      (SELECT COUNT(*) FROM gtd_items WHERE status = 'completed' AND completed_date >= date('now', '-7 days')) as completed_week,
+      (SELECT MAX(completed_at) FROM gtd_reviews WHERE review_type = 'weekly') as last_weekly_review
+  `),
+};
+
 const stmts = {
   getSession: db.prepare("SELECT * FROM sessions WHERE id = ?"),
   listSessions: db.prepare(
@@ -410,4 +845,4 @@ const stmts = {
   `),
 };
 
-module.exports = { db, stmts, DB_PATH };
+module.exports = { db, stmts, gtdStmts, DB_PATH };

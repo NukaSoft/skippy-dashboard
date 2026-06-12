@@ -273,6 +273,155 @@ export interface SessionDrillIn {
   events: DashboardEvent[];
 }
 
+// ─── GTD / PARA Types (Overseer's Dashboard) ────────────────
+export type GtdItemType = "inbox" | "next_action" | "project" | "waiting_for" | "someday_maybe" | "calendar" | "reference" | "archived";
+export type GtdStatus = "active" | "completed" | "cancelled" | "archived" | "incubating";
+export type GtdParaType = "project" | "area" | "resource" | "archive";
+
+export interface GtdItem {
+  id: number;
+  title: string;
+  body: string | null;
+  item_type: GtdItemType;
+  status: GtdStatus;
+  para_type: GtdParaType | null;
+  context: string | null;
+  energy_level: "high" | "medium" | "low" | null;
+  time_estimate: number | null;
+  due_date: string | null;
+  scheduled_date: string | null;
+  completed_date: string | null;
+  delegated_to: string | null;
+  delegated_date: string | null;
+  follow_up_date: string | null;
+  source: string | null;
+  source_ref: string | null;
+  parent_id: number | null;
+  area_id: number | null;
+  area_name: string | null;
+  sort_order: number;
+  tags: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface GtdArea {
+  id: number;
+  name: string;
+  description: string | null;
+  standard: string | null;
+  status: string;
+  parent_area_id: number | null;
+  sort_order: number;
+}
+
+export interface GtdTag {
+  id: number;
+  name: string;
+  tag_type: "context" | "topic" | "energy" | "person" | "custom";
+  color: string | null;
+}
+
+export interface GtdPerson {
+  id: number;
+  name: string;
+  email: string | null;
+  role: string | null;
+  company: string | null;
+  is_agent: boolean;
+}
+
+export interface GtdProject {
+  id: number;
+  item_id: number;
+  title: string;
+  item_status: string;
+  desired_outcome: string;
+  area_id: number | null;
+  area_name: string | null;
+  deadline: string | null;
+  progress_pct: number;
+  action_count: number;
+  next_due: string | null;
+}
+
+export interface GtdWaiting {
+  id: number;
+  item_id: number;
+  title: string;
+  person_name: string | null;
+  is_agent: boolean;
+  delegated_date: string;
+  expected_date: string | null;
+  follow_up_date: string | null;
+  follow_up_count: number;
+  days_waiting: number;
+  notes: string | null;
+}
+
+export interface GtdCapture {
+  id: number;
+  raw_text: string;
+  source: string;
+  source_ref: string | null;
+  processed: boolean;
+  item_id: number | null;
+  captured_at: string;
+}
+
+export interface GtdReview {
+  id: number;
+  review_type: string;
+  started_at: string;
+  completed_at: string | null;
+  notes: string | null;
+  inbox_cleared: boolean;
+  projects_reviewed: boolean;
+  waiting_reviewed: boolean;
+  someday_reviewed: boolean;
+  calendar_reviewed: boolean;
+}
+
+export interface GtdResource {
+  id: number;
+  item_id: number;
+  title: string;
+  body: string | null;
+  category: string | null;
+  author: string | null;
+  source_url: string | null;
+  canon: boolean;
+}
+
+export interface GtdActivity {
+  id: number;
+  item_id: number | null;
+  action: string;
+  old_value: string | null;
+  new_value: string | null;
+  actor: string;
+  created_at: string;
+}
+
+export interface GtdStats {
+  inbox_count: number;
+  raw_captures: number;
+  next_actions: number;
+  active_projects: number;
+  waiting_count: number;
+  someday_count: number;
+  completed_week: number;
+  last_weekly_review: string | null;
+}
+
+export const GTD_COLUMN_CONFIG: Record<string, { label: string; color: string; dot: string; description: string }> = {
+  inbox: { label: "Inbox", color: "text-amber-400", dot: "bg-amber-400", description: "Capture — unprocessed items" },
+  next_action: { label: "Next Actions", color: "text-emerald-400", dot: "bg-emerald-400", description: "Do — your plate" },
+  waiting_for: { label: "Waiting For", color: "text-blue-400", dot: "bg-blue-400", description: "Delegated — blocked on someone" },
+  someday_maybe: { label: "Someday", color: "text-violet-400", dot: "bg-violet-400", description: "Incubating — not now" },
+  reference: { label: "Reference", color: "text-gray-400", dot: "bg-gray-400", description: "Non-actionable — knowledge" },
+};
+
 export const STATUS_CONFIG: Record<
   AgentStatus,
   { label: string; color: string; bg: string; dot: string }

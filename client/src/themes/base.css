@@ -1,41 +1,56 @@
-﻿/* ============================================
-   PIP-BOY THEME â€” NukaSoft Dashboard
-   Base theme (default) + shared layout
+/* ============================================
+   NUKASOFT VAULT REFIT — Skippy Dashboard
+   Vault theme (default) + shared layout
+   Design handoff: docs/design-handoff/design_handoff_nukasoft_vault_refit
    ============================================ */
 
-/* --- Font Face --- */
+/* --- Font Face: Abril Fatface (display, page titles only) --- */
 @font-face {
-  font-family: 'Monofonto';
-  src: url('/fonts/monofonto.otf') format('opentype');
-  font-weight: normal;
+  font-family: 'Abril Fatface';
+  src: url('/fonts/AbrilFatface-Regular.ttf') format('truetype');
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
-/* --- Pip-Boy Theme (Default) --- */
+/* --- Vault Theme (Default) --- */
 :root {
-  --pip-primary: #18FF62;
-  --pip-dim: #0bae0f;
-  --pip-dark: #0d2a0d;
-  --pip-glow: rgba(24, 255, 98, 0.25);
-  --pip-amber: #FFB642;
-  --pip-crit: #ff3333;
-  --pip-bg: #0b1a0b;
-  --pip-surface-1: #0d1f0d;
-  --pip-surface-2: #112811;
-  --pip-surface-3: #1a3a1a;
-  --pip-surface-4: #1f4a1f;
-  --pip-surface-5: #255a25;
-  --pip-border: #1a3a1a;
-  --pip-border-light: #255a25;
-  --pip-data: #18FF62;
-  --pip-scanline: rgba(0, 0, 0, 0.12);
-  --pip-font-heading: 'Monofonto', 'Share Tech Mono', 'Courier New', monospace;
-  --pip-font-data: 'Roboto Mono', 'JetBrains Mono', 'Consolas', monospace;
+  /* foreground is CREAM now, not an accent green */
+  --pip-primary: #F5E6C8;
+  --pip-dim: rgba(245, 230, 200, 0.72);
+  --pip-dark: rgba(245, 230, 200, 0.45);
+  --pip-glow: rgba(196, 30, 36, 0.22);          /* repurposed: active-nav tint */
+  --pip-amber: #F1C40F;                          /* rad yellow: labels, working */
+  --pip-crit: #E43A41;                           /* error */
+  --pip-bg: #241007;                             /* page background */
+  --pip-surface-1: #2A1308;                      /* nav rails */
+  --pip-surface-2: #341A0C;                      /* cards */
+  --pip-surface-3: #3D1C0B;                      /* nested surfaces / hover */
+  --pip-surface-4: #46220E;
+  --pip-surface-5: #4F2811;
+  --pip-border: rgba(245, 230, 200, 0.14);       /* hairline */
+  --pip-border-light: rgba(245, 230, 200, 0.28); /* strong hairline */
+  --pip-data: #F5E6C8;
+  --pip-scanline: rgba(0, 0, 0, 0.14);
+
+  /* Vault additions */
+  --pip-accent: #C41E24;                         /* command red */
+  --pip-accent-hover: #E43A41;
+  --pip-accent-pressed: #8A1319;
+  --pip-ink: #1A0805;                            /* borders on red, letterpress */
+  --pip-sky: #87CEEB;                            /* connected */
+  --pip-green: #54C47A;                          /* completed / healthy */
+  --pip-terminal-well: #1A0805;
+
+  --pip-font-display: 'Abril Fatface', Georgia, serif;
+  --pip-font-heading: 'Josefin Sans', 'Trebuchet MS', sans-serif;
+  --pip-font-data: 'IBM Plex Mono', 'Consolas', monospace;
+
+  --pip-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-/* --- CRT Scanlines --- */
-body::before {
+/* --- CRT effects: opt-in via html[data-crt="on"], persisted in localStorage --- */
+html[data-crt="on"] body::before {
   content: '';
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -50,74 +65,91 @@ body::before {
   z-index: 99999;
 }
 
-/* --- CRT Vignette --- */
-body::after {
+html[data-crt="on"] body::after {
   content: '';
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.6) 100%);
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.5) 100%);
   pointer-events: none;
   z-index: 99998;
 }
 
-/* --- Global text color override --- */
+html[data-crt="on"] body {
+  text-shadow: 0 0 1px rgba(245, 230, 200, 0.18);
+}
+
+/* --- Global text color --- */
 body {
   color: var(--pip-primary);
 }
 
-/* --- Headings --- */
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--pip-font-heading) !important;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+/* --- Headings ---
+   Page titles (h1) use the display serif, sentence case.
+   Section headings keep the uppercase Josefin label treatment. */
+h1 {
+  font-family: var(--pip-font-display) !important;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  line-height: 1.05;
   color: var(--pip-primary);
 }
 
-/* --- Card hover glow --- */
+h2, h3, h4, h5, h6 {
+  font-family: var(--pip-font-heading) !important;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--pip-primary);
+}
+
+/* --- Cards: flat, hairline, hover = bg/border change (never lift) --- */
 .card-hover {
-  background: var(--pip-surface-1);
+  background: var(--pip-surface-2);
   border: 1px solid var(--pip-border);
-  border-radius: 6px;
-  transition: all 0.15s;
+  border-radius: 8px;
+  transition: background-color 120ms var(--pip-ease), border-color 120ms var(--pip-ease);
 }
 
 .card-hover:hover {
-  border-color: var(--pip-primary);
-  box-shadow: 0 0 12px var(--pip-glow);
+  border-color: var(--pip-border-light);
+  background: var(--pip-surface-3);
 }
 
-/* --- Accent color overrides --- */
-.text-accent { color: var(--pip-primary) !important; }
+/* --- Accent (command red) --- */
+.text-accent { color: var(--pip-accent-hover) !important; }
 .bg-accent\/10, .bg-accent\/15, .bg-accent\/20 {
   background-color: var(--pip-glow) !important;
 }
-.border-accent\/20 { border-color: var(--pip-glow) !important; }
+.border-accent\/20 { border-color: rgba(196, 30, 36, 0.35) !important; }
 
-/* --- Status badge overrides --- */
-.text-emerald-400 { color: var(--pip-primary) !important; }
-.bg-emerald-500\/10 { background-color: var(--pip-glow) !important; }
-.border-emerald-500\/20 { border-color: var(--pip-glow) !important; }
-.bg-emerald-400 { background-color: var(--pip-primary) !important; }
+/* --- Status vocabulary (identical everywhere)
+   working = rad yellow, connected = sky, completed/ok = green,
+   error = red, idle/abandoned = tertiary cream --- */
+.text-emerald-400 { color: var(--pip-green) !important; }
+.bg-emerald-500\/10 { background-color: rgba(84, 196, 122, 0.12) !important; }
+.border-emerald-500\/20 { border-color: rgba(84, 196, 122, 0.25) !important; }
+.bg-emerald-400 { background-color: var(--pip-green) !important; }
 
 .text-violet-400 { color: var(--pip-dim) !important; }
-.bg-violet-500\/10 { background-color: rgba(11, 174, 15, 0.1) !important; }
-.border-violet-500\/20 { border-color: rgba(11, 174, 15, 0.2) !important; }
+.bg-violet-500\/10 { background-color: rgba(245, 230, 200, 0.08) !important; }
+.border-violet-500\/20 { border-color: rgba(245, 230, 200, 0.18) !important; }
 .bg-violet-400 { background-color: var(--pip-dim) !important; }
 
-.text-blue-400 { color: var(--pip-primary) !important; }
-.bg-blue-500\/10 { background-color: var(--pip-glow) !important; }
-.border-blue-500\/20 { border-color: var(--pip-glow) !important; }
-.bg-blue-400 { background-color: var(--pip-primary) !important; }
+.text-blue-400 { color: var(--pip-sky) !important; }
+.bg-blue-500\/10 { background-color: rgba(135, 206, 235, 0.10) !important; }
+.border-blue-500\/20 { border-color: rgba(135, 206, 235, 0.25) !important; }
+.bg-blue-400 { background-color: var(--pip-sky) !important; }
 
 .text-yellow-400 { color: var(--pip-amber) !important; }
-.bg-yellow-500\/10 { background-color: rgba(255, 182, 66, 0.1) !important; }
-.border-yellow-500\/20 { border-color: rgba(255, 182, 66, 0.2) !important; }
+.bg-yellow-500\/10 { background-color: rgba(241, 196, 15, 0.10) !important; }
+.border-yellow-500\/20 { border-color: rgba(241, 196, 15, 0.25) !important; }
 
 .text-red-400 { color: var(--pip-crit) !important; }
-.bg-red-500\/10 { background-color: rgba(255, 51, 51, 0.1) !important; }
-.border-red-500\/20 { border-color: rgba(255, 51, 51, 0.2) !important; }
+.bg-red-500\/10 { background-color: rgba(228, 58, 65, 0.10) !important; }
+.border-red-500\/20 { border-color: rgba(228, 58, 65, 0.25) !important; }
 
-/* --- Gray text â†’ themed dim --- */
+/* --- Gray text → themed cream tiers --- */
 .text-gray-100 { color: var(--pip-primary) !important; }
 .text-gray-200 { color: var(--pip-primary) !important; }
 .text-gray-300 { color: var(--pip-dim) !important; }
@@ -125,33 +157,55 @@ h1, h2, h3, h4, h5, h6 {
 .text-gray-500 { color: var(--pip-dark) !important; }
 .text-gray-600 { color: var(--pip-dark) !important; }
 
-/* --- Indigo â†’ themed primary --- */
+/* --- Indigo → cream --- */
 .text-indigo-400 { color: var(--pip-primary) !important; }
-.bg-indigo-500\/10 { background-color: var(--pip-glow) !important; }
+.bg-indigo-500\/10 { background-color: rgba(245, 230, 200, 0.08) !important; }
 
-/* --- Sidebar active state --- */
+/* --- Sidebar active state: red tint --- */
 .bg-accent\/10 {
   background-color: var(--pip-glow) !important;
 }
 
-/* --- Links --- */
-a { color: var(--pip-dim); }
-a:hover { color: var(--pip-primary); text-shadow: 0 0 6px var(--pip-glow); }
+/* --- Links: flat hover, no glow --- */
+a { color: var(--pip-dim); transition: color 120ms var(--pip-ease); }
+a:hover { color: var(--pip-primary); }
 
 /* --- Scrollbar --- */
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: var(--pip-bg); }
-::-webkit-scrollbar-thumb { background: var(--pip-border); border-radius: 2px; }
-::-webkit-scrollbar-thumb:hover { background: var(--pip-surface-5); }
+::-webkit-scrollbar-thumb { background: var(--pip-border-light); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--pip-dark); }
 
 /* --- Selection --- */
-::selection { background: var(--pip-glow); color: var(--pip-primary); }
+::selection { background: rgba(196, 30, 36, 0.45); color: var(--pip-primary); }
 
-/* --- Pip-Boy utility classes --- */
-.pip-glow { text-shadow: 0 0 8px var(--pip-glow); }
-.pip-border-glow { box-shadow: 0 0 12px var(--pip-glow); }
+/* --- Legacy glow utilities: now flat (kept so components don't break) --- */
+.pip-glow { text-shadow: none; }
+.pip-border-glow { box-shadow: none; }
 
-/* --- Segmented bar --- */
+/* --- Letterpress: ONLY primary red buttons + hero panel/ribbon --- */
+.vault-letterpress { box-shadow: 2px 2px 0 var(--pip-ink); }
+.vault-letterpress-lg { box-shadow: 3px 3px 0 var(--pip-ink); }
+
+.vault-btn-primary {
+  background: var(--pip-accent);
+  color: var(--pip-primary);
+  border: 2px solid var(--pip-ink);
+  border-radius: 999px;
+  box-shadow: 2px 2px 0 var(--pip-ink);
+  font-family: var(--pip-font-heading);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  transition: background-color 120ms var(--pip-ease), transform 120ms var(--pip-ease), box-shadow 120ms var(--pip-ease);
+}
+.vault-btn-primary:hover { background: var(--pip-accent-hover); transform: translateY(-1px); }
+.vault-btn-primary:active { background: var(--pip-accent-pressed); transform: translateY(0); box-shadow: none; }
+
+/* --- Dashed-divider idiom: the signature data texture --- */
+.sk-kv > * + * { border-top: 1px dashed var(--pip-border); }
+
+/* --- Segmented bar: flat fills --- */
 .pip-seg-bar {
   display: flex;
   gap: 2px;
@@ -159,21 +213,12 @@ a:hover { color: var(--pip-primary); text-shadow: 0 0 6px var(--pip-glow); }
 }
 .pip-seg-bar .seg {
   flex: 1;
-  background: var(--pip-dark);
+  background: rgba(245, 230, 200, 0.10);
   border-radius: 1px;
 }
-.pip-seg-bar .seg.filled {
-  background: var(--pip-primary);
-  box-shadow: 0 0 4px var(--pip-glow);
-}
-.pip-seg-bar .seg.warn {
-  background: var(--pip-amber);
-  box-shadow: 0 0 4px rgba(255, 182, 66, 0.4);
-}
-.pip-seg-bar .seg.crit {
-  background: var(--pip-crit);
-  box-shadow: 0 0 4px rgba(255, 51, 51, 0.4);
-}
+.pip-seg-bar .seg.filled { background: var(--pip-green); }
+.pip-seg-bar .seg.warn   { background: var(--pip-amber); }
+.pip-seg-bar .seg.crit   { background: var(--pip-crit); }
 
 /* --- Theme Picker --- */
 .theme-picker-btn {
@@ -182,30 +227,30 @@ a:hover { color: var(--pip-primary); text-shadow: 0 0 6px var(--pip-glow); }
   gap: 0.5rem;
   cursor: pointer;
   font-family: var(--pip-font-heading);
+  font-weight: 700;
   font-size: 0.7rem;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.16em;
   color: var(--pip-dim);
   padding: 0.4rem 0.75rem;
   border: 1px solid var(--pip-border);
   border-radius: 6px;
   background: transparent;
-  transition: all 0.2s;
+  transition: color 120ms var(--pip-ease), border-color 120ms var(--pip-ease);
   width: 100%;
 }
 
 .theme-picker-btn:hover {
   color: var(--pip-primary);
-  border-color: var(--pip-primary);
+  border-color: var(--pip-border-light);
 }
 
 .theme-picker-swatch {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: var(--pip-primary);
+  background: var(--pip-accent);
   flex-shrink: 0;
-  box-shadow: 0 0 4px var(--pip-glow);
 }
 
 .theme-picker-dropdown {
@@ -225,10 +270,11 @@ a:hover { color: var(--pip-primary); text-shadow: 0 0 6px var(--pip-glow); }
 
 .theme-picker-category {
   font-family: var(--pip-font-heading);
+  font-weight: 700;
   font-size: 0.6rem;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: var(--pip-dark);
+  letter-spacing: 0.16em;
+  color: var(--pip-amber);
   padding: 6px 8px 2px;
 }
 
@@ -245,7 +291,7 @@ a:hover { color: var(--pip-primary); text-shadow: 0 0 6px var(--pip-glow); }
   font-family: var(--pip-font-data);
   font-size: 0.7rem;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: background-color 120ms var(--pip-ease), color 120ms var(--pip-ease);
   text-align: left;
 }
 
@@ -259,20 +305,9 @@ a:hover { color: var(--pip-primary); text-shadow: 0 0 6px var(--pip-glow); }
   background: var(--pip-glow);
 }
 
-.theme-picker-item.coming-soon {
-  opacity: 0.35;
-  cursor: default;
-}
-
 .theme-picker-item .swatch {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   flex-shrink: 0;
-}
-
-.theme-picker-item .badge {
-  font-size: 0.55rem;
-  opacity: 0.5;
-  margin-left: auto;
 }

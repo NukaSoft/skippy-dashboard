@@ -1,0 +1,31 @@
+/* Sith Theme — Dark Side */
+body.theme-sith {
+  --pip-primary: #FF0000;
+  --pip-dim: #8B0000;
+  --pip-dark: #1A0000;
+  --pip-glow: rgba(255, 0, 0, 0.2);
+  --pip-amber: #9B30FF;
+  --pip-crit: #FF0000;
+  --pip-bg: #050005;
+  --pip-surface-1: #0D000D;
+  --pip-surface-2: #150015;
+  --pip-surface-3: #200020;
+  --pip-surface-4: #2A002A;
+  --pip-surface-5: #3A003A;
+  --pip-border: #2A002A;
+  --pip-border-light: #5A005A;
+  --pip-data: #FF0000;
+  --pip-scanline: rgba(0, 0, 0, 0.18);
+  --pip-font-heading: 'Orbitron', 'Monofonto', monospace;
+  --pip-font-data: 'Share Tech Mono', 'Roboto Mono', monospace;
+}
+
+body.theme-sith::after {
+  background: radial-gradient(ellipse at center, transparent 45%, rgba(0, 0, 0, 0.85) 100%);
+}
+
+body.theme-sith .nav-active {
+  color: #FF0000 !important;
+  border-left-color: #FF0000 !important;
+  background: rgba(255, 0, 0, 0.08) !important;
+}

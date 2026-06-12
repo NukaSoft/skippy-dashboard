@@ -1,0 +1,31 @@
+/* Rebel Alliance Theme — X-Wing Briefing Room */
+body.theme-rebel {
+  --pip-primary: #FF6B00;
+  --pip-dim: #CC5500;
+  --pip-dark: #2A1A0A;
+  --pip-glow: rgba(255, 107, 0, 0.2);
+  --pip-amber: #FFD700;
+  --pip-crit: #FF0000;
+  --pip-bg: #0E0E12;
+  --pip-surface-1: #14141A;
+  --pip-surface-2: #1A1A22;
+  --pip-surface-3: #24242E;
+  --pip-surface-4: #30303A;
+  --pip-surface-5: #444450;
+  --pip-border: #3A3A44;
+  --pip-border-light: #555560;
+  --pip-data: #FF6B00;
+  --pip-scanline: rgba(0, 0, 0, 0.10);
+  --pip-font-heading: 'Orbitron', 'Monofonto', monospace;
+  --pip-font-data: 'Share Tech Mono', 'Roboto Mono', monospace;
+}
+
+body.theme-rebel::after {
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.6) 100%);
+}
+
+body.theme-rebel .nav-active {
+  color: #FF6B00 !important;
+  border-left-color: #FF6B00 !important;
+  background: rgba(255, 107, 0, 0.08) !important;
+}

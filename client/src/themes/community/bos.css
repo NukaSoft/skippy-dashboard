@@ -1,0 +1,36 @@
+/* Brotherhood of Steel Theme — Military Tech Hoarders */
+body.theme-bos {
+  --pip-primary: #D4AF37;
+  --pip-dim: #8B7355;
+  --pip-dark: #1A2A3A;
+  --pip-glow: rgba(212, 175, 55, 0.25);
+  --pip-amber: #FFA500;
+  --pip-crit: #CC0000;
+  --pip-bg: #0A0E27;
+  --pip-surface-1: #111633;
+  --pip-surface-2: #1A1F3A;
+  --pip-surface-3: #222844;
+  --pip-surface-4: #2A3050;
+  --pip-surface-5: #4A4A4A;
+  --pip-border: #D4AF37;
+  --pip-border-light: #8B7355;
+  --pip-data: #00FF00;
+  --pip-scanline: rgba(0, 0, 0, 0.15);
+  --pip-font-heading: 'Bebas Neue', 'Monofonto', monospace;
+  --pip-font-data: 'IBM Plex Mono', 'Roboto Mono', monospace;
+}
+
+body.theme-bos::after {
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.7) 100%);
+}
+
+body.theme-bos .nav-active {
+  color: #D4AF37 !important;
+  border-left-color: #D4AF37 !important;
+  background: rgba(212, 175, 55, 0.08) !important;
+}
+
+body.theme-bos .pip-seg-bar .seg.filled {
+  background: var(--pip-data);
+  box-shadow: 0 0 4px rgba(0, 255, 0, 0.3);
+}

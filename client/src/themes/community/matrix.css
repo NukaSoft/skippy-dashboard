@@ -1,0 +1,31 @@
+/* Matrix Theme — Green Rain */
+body.theme-matrix {
+  --pip-primary: #00FF41;
+  --pip-dim: #008F11;
+  --pip-dark: #003B00;
+  --pip-glow: rgba(0, 255, 65, 0.2);
+  --pip-amber: #00FF41;
+  --pip-crit: #FF0000;
+  --pip-bg: #000000;
+  --pip-surface-1: #050505;
+  --pip-surface-2: #0A0A0A;
+  --pip-surface-3: #111111;
+  --pip-surface-4: #1A1A1A;
+  --pip-surface-5: #222222;
+  --pip-border: #003B00;
+  --pip-border-light: #008F11;
+  --pip-data: #00FF41;
+  --pip-scanline: rgba(0, 0, 0, 0.22);
+  --pip-font-heading: 'Share Tech Mono', 'Monofonto', monospace;
+  --pip-font-data: 'Share Tech Mono', 'Roboto Mono', monospace;
+}
+
+body.theme-matrix::after {
+  background: radial-gradient(ellipse at center, transparent 45%, rgba(0, 0, 0, 0.9) 100%);
+}
+
+body.theme-matrix .nav-active {
+  color: #00FF41 !important;
+  border-left-color: #00FF41 !important;
+  background: rgba(0, 255, 65, 0.08) !important;
+}

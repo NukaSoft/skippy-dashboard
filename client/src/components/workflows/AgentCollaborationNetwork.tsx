@@ -1,5 +1,6 @@
 import { useRef, useEffect, useMemo } from "react";
 import * as d3 from "d3";
+import { getThemeColors } from "../../lib/theme";
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 
@@ -30,31 +31,17 @@ interface PipelineLink extends d3.SimulationLinkDatum<PipelineNode> {
 
 // ── Constants ──────────────────────────────────────────────────────────────────
 
-const PALETTE = [
-  "#18FF62",
-  "#18FF62",
-  "#22c55e",
-  "#a855f7",
-  "#f59e0b",
-  "#ec4899",
-  "#06b6d4",
-  "#f97316",
-  "#ef4444",
-  "#14b8a6",
-];
+function getPalette() {
+  const t = getThemeColors();
+  return [t.primary, t.primary, "#22c55e", "#a855f7", "#f59e0b", "#ec4899", "#06b6d4", "#f97316", "#ef4444", "#14b8a6"];
+}
 
-const STROKE_PALETTE = [
-  "#0bae0f",
-  "#60a5fa",
-  "#4ade80",
-  "#c084fc",
-  "#fbbf24",
-  "#f472b6",
-  "#22d3ee",
-  "#fb923c",
-  "#f87171",
+function getStrokePalette() {
+  const t = getThemeColors();
+  return [t.dim, "#60a5fa", "#4ade80", "#c084fc", "#fbbf24", "#f472b6", "#22d3ee", "#fb923c", "#f87171",
   "#2dd4bf",
-];
+  ];
+}
 
 const MIN_R = 20;
 const MAX_R = 44;
@@ -115,7 +102,7 @@ export function AgentCollaborationNetwork({
         total: item.total,
         sessions: item.sessions,
         successRate: item.successRate,
-        colorIndex: i % PALETTE.length,
+        colorIndex: i % getPalette().length,
       });
     });
 
@@ -233,9 +220,9 @@ export function AgentCollaborationNetwork({
     nodeEls
       .append("circle")
       .attr("r", (d) => rScale(d.total))
-      .attr("fill", (d) => PALETTE[d.colorIndex] ?? "#18FF62")
+      .attr("fill", (d) => getPalette()[d.colorIndex] || getPalette()[0]!)
       .attr("fill-opacity", 0.8)
-      .attr("stroke", (d) => STROKE_PALETTE[d.colorIndex] ?? "#0bae0f")
+      .attr("stroke", (d) => getStrokePalette()[d.colorIndex] || getStrokePalette()[0]!)
       .attr("stroke-width", 2);
 
     nodeEls
@@ -483,8 +470,8 @@ export function AgentCollaborationNetwork({
             <span
               className="inline-block w-2.5 h-2.5 rounded-full flex-shrink-0"
               style={{
-                backgroundColor: PALETTE[n.colorIndex] ?? PALETTE[0],
-                border: `1.5px solid ${STROKE_PALETTE[n.colorIndex] ?? STROKE_PALETTE[0]}`,
+                backgroundColor: getPalette()[n.colorIndex] ?? getPalette()[0],
+                border: `1.5px solid ${getStrokePalette()[n.colorIndex] ?? getStrokePalette()[0]}`,
               }}
             />
             <span className="text-[11px] text-gray-500">{n.id}</span>

@@ -1,0 +1,36 @@
+/* Overseer Theme — Vault-Tec Management */
+body.theme-overseer {
+  --pip-primary: #0A84C1;
+  --pip-dim: #066a9a;
+  --pip-dark: #0a1e2e;
+  --pip-glow: rgba(10, 132, 193, 0.25);
+  --pip-amber: #F8E71C;
+  --pip-crit: #ff3333;
+  --pip-bg: #0a0e14;
+  --pip-surface-1: #0c1420;
+  --pip-surface-2: #0f1a2a;
+  --pip-surface-3: #122a3e;
+  --pip-surface-4: #1a3a52;
+  --pip-surface-5: #224a66;
+  --pip-border: #122a3e;
+  --pip-border-light: #224a66;
+  --pip-data: #00FF66;
+  --pip-scanline: rgba(0, 0, 0, 0.08);
+  --pip-font-heading: 'Orbitron', 'Monofonto', 'Share Tech Mono', monospace;
+  --pip-font-data: 'Rajdhani', 'Roboto Mono', sans-serif;
+}
+
+body.theme-overseer::after {
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.7) 100%);
+}
+
+body.theme-overseer .nav-active {
+  color: #F8E71C !important;
+  border-left-color: #F8E71C !important;
+  background: rgba(248, 231, 28, 0.08) !important;
+}
+
+body.theme-overseer .pip-seg-bar .seg.filled {
+  background: var(--pip-data);
+  box-shadow: 0 0 4px rgba(0, 255, 102, 0.3);
+}

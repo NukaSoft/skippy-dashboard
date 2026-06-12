@@ -1,0 +1,31 @@
+/* Galactic Republic Theme — Clone Wars Senate */
+body.theme-republic {
+  --pip-primary: #4169E1;
+  --pip-dim: #6A7FBF;
+  --pip-dark: #1A1A3A;
+  --pip-glow: rgba(65, 105, 225, 0.2);
+  --pip-amber: #DAA520;
+  --pip-crit: #CC0000;
+  --pip-bg: #0A0A1A;
+  --pip-surface-1: #101025;
+  --pip-surface-2: #181830;
+  --pip-surface-3: #20203E;
+  --pip-surface-4: #2A2A4E;
+  --pip-surface-5: #3A3A5E;
+  --pip-border: #2A2A4E;
+  --pip-border-light: #4A4A6E;
+  --pip-data: #4169E1;
+  --pip-scanline: rgba(0, 0, 0, 0.08);
+  --pip-font-heading: 'Orbitron', 'Monofonto', monospace;
+  --pip-font-data: 'Rajdhani', 'Roboto Mono', sans-serif;
+}
+
+body.theme-republic::after {
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 20, 0.6) 100%);
+}
+
+body.theme-republic .nav-active {
+  color: #DAA520 !important;
+  border-left-color: #DAA520 !important;
+  background: rgba(218, 165, 32, 0.08) !important;
+}

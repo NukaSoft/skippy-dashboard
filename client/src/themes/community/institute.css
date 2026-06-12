@@ -1,0 +1,36 @@
+/* Institute Theme — Clean-Room Synth Builders */
+body.theme-institute {
+  --pip-primary: #00D4FF;
+  --pip-dim: #4A5568;
+  --pip-dark: #0A0E27;
+  --pip-glow: rgba(0, 212, 255, 0.2);
+  --pip-amber: #6B4C9A;
+  --pip-crit: #FF1744;
+  --pip-bg: #0A0E27;
+  --pip-surface-1: #0F1333;
+  --pip-surface-2: #1A1F3A;
+  --pip-surface-3: #222844;
+  --pip-surface-4: #2A3050;
+  --pip-surface-5: #4A5568;
+  --pip-border: #00D4FF;
+  --pip-border-light: #4A5568;
+  --pip-data: #39FF14;
+  --pip-scanline: rgba(0, 212, 255, 0.03);
+  --pip-font-heading: 'Audiowide', 'Monofonto', monospace;
+  --pip-font-data: 'Space Mono', 'Courier Prime', monospace;
+}
+
+body.theme-institute::after {
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 10, 30, 0.65) 100%);
+}
+
+body.theme-institute .nav-active {
+  color: #00D4FF !important;
+  border-left-color: #00D4FF !important;
+  background: rgba(0, 212, 255, 0.08) !important;
+}
+
+body.theme-institute .pip-seg-bar .seg.filled {
+  background: var(--pip-data);
+  box-shadow: 0 0 4px rgba(57, 255, 20, 0.3);
+}

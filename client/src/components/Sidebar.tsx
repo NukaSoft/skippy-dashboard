@@ -14,10 +14,13 @@ import {
   Globe,
   PanelLeftClose,
   PanelLeftOpen,
+  ClipboardList,
 } from "lucide-react";
+import ThemePicker from "./ThemePicker";
 
 const NAV_ITEMS = [
   { to: "/", icon: LayoutDashboard, label: "STAT" },
+  { to: "/gtd", icon: ClipboardList, label: "GTD" },
   { to: "/kanban", icon: Columns3, label: "BOARD" },
   { to: "/sessions", icon: FolderOpen, label: "DATA" },
   { to: "/activity", icon: Activity, label: "FEED" },
@@ -44,6 +47,7 @@ interface SidebarProps {
 }
 
 export function Sidebar({ wsConnected, collapsed, onToggle }: SidebarProps) {
+
   return (
     <aside
       className={`fixed left-0 top-0 bottom-0 bg-surface-1 border-r border-border flex flex-col z-30 overflow-y-auto overflow-x-hidden transition-[width] duration-200 ${
@@ -90,6 +94,9 @@ export function Sidebar({ wsConnected, collapsed, onToggle }: SidebarProps) {
           </NavLink>
         ))}
       </nav>
+
+      {/* Theme picker */}
+      <ThemePicker collapsed={collapsed} />
 
       {/* Collapse toggle */}
       <div className="px-2 py-2">

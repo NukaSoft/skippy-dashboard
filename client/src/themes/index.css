@@ -1,0 +1,5 @@
+/* NukaSoft Vault Refit — sanctioned themes only.
+   Vault (default) lives in base.css; Terminal is the CRT-green nod.
+   Fan themes retired to ./community/ (not imported, not in the picker). */
+@import "./base.css";
+@import "./terminal.css";

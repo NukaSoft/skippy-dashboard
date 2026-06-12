@@ -1,15 +1,10 @@
 import type { SubagentEffectivenessItem } from "../../lib/types";
+import { getThemeColors } from "../../lib/theme";
 
-const COLORS = [
-  "#10b981",
-  "#18FF62",
-  "#a855f7",
-  "#f59e0b",
-  "#f43f5e",
-  "#06b6d4",
-  "#f97316",
-  "#18FF62",
-] as const;
+function getColors() {
+  const t = getThemeColors();
+  return ["#10b981", t.primary, "#a855f7", "#f59e0b", "#f43f5e", "#06b6d4", "#f97316", t.primary];
+}
 
 const RING_RADIUS = 28;
 const RING_STROKE = 5;
@@ -153,7 +148,8 @@ interface ScoreCardProps {
 }
 
 function ScoreCard({ item, colorIndex }: ScoreCardProps) {
-  const color = COLORS[colorIndex % COLORS.length] ?? COLORS[0];
+  const colors = getColors();
+  const color = colors[colorIndex % colors.length] || colors[0]!;
 
   return (
     <div

@@ -1,0 +1,31 @@
+/* Mandalorian Theme — Bounty Board */
+body.theme-mandalorian {
+  --pip-primary: #C0C0C0;
+  --pip-dim: #8B8682;
+  --pip-dark: #3B2F2F;
+  --pip-glow: rgba(192, 192, 192, 0.15);
+  --pip-amber: #B8860B;
+  --pip-crit: #CC0000;
+  --pip-bg: #12100E;
+  --pip-surface-1: #1A1714;
+  --pip-surface-2: #221F1B;
+  --pip-surface-3: #2E2A25;
+  --pip-surface-4: #3B3530;
+  --pip-surface-5: #4A443E;
+  --pip-border: #3B3530;
+  --pip-border-light: #8B8682;
+  --pip-data: #B8860B;
+  --pip-scanline: rgba(0, 0, 0, 0.10);
+  --pip-font-heading: 'Orbitron', 'Monofonto', monospace;
+  --pip-font-data: 'JetBrains Mono', 'Roboto Mono', monospace;
+}
+
+body.theme-mandalorian::after {
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.7) 100%);
+}
+
+body.theme-mandalorian .nav-active {
+  color: #B8860B !important;
+  border-left-color: #B8860B !important;
+  background: rgba(184, 134, 11, 0.08) !important;
+}

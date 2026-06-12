@@ -1,0 +1,31 @@
+/* Synthwave Theme — 80s Outrun */
+body.theme-synthwave {
+  --pip-primary: #FF00FF;
+  --pip-dim: #B300B3;
+  --pip-dark: #2A0033;
+  --pip-glow: rgba(255, 0, 255, 0.2);
+  --pip-amber: #FF6EC7;
+  --pip-crit: #FF0000;
+  --pip-bg: #0D0221;
+  --pip-surface-1: #130330;
+  --pip-surface-2: #1A0440;
+  --pip-surface-3: #220550;
+  --pip-surface-4: #2A0660;
+  --pip-surface-5: #3A0880;
+  --pip-border: #FF00FF;
+  --pip-border-light: #B300B3;
+  --pip-data: #00FFFF;
+  --pip-scanline: rgba(0, 0, 0, 0.12);
+  --pip-font-heading: 'Orbitron', 'Monofonto', monospace;
+  --pip-font-data: 'Rajdhani', 'Roboto Mono', sans-serif;
+}
+
+body.theme-synthwave::after {
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(13, 2, 33, 0.8) 100%);
+}
+
+body.theme-synthwave .nav-active {
+  color: #00FFFF !important;
+  border-left-color: #00FFFF !important;
+  background: rgba(0, 255, 255, 0.08) !important;
+}

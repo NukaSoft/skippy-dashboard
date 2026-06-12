@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skippy Dashboard Redesign — Brief</title>
+<link rel="stylesheet" href="ns/colors_and_type.css">
+<style>
+  body { margin: 0; background: var(--ns-aged-paper); }
+  .page { max-width: 880px; margin: 0 auto; padding: 56px 32px 96px; }
+  .doc { font-family: var(--ns-font-body); color: var(--ns-ink-1); }
+  .masthead { background: var(--ns-nuka-red); border: 2px solid var(--ns-cola-brown); box-shadow: var(--ns-shadow-letterpress-lg); padding: 36px 40px; margin-bottom: 48px; position: relative; }
+  .masthead .eyebrow { color: var(--ns-rad-yellow); letter-spacing: 0.18em; text-transform: uppercase; font-weight: 700; font-size: 13px; margin-bottom: 10px; }
+  .masthead h1 { font-family: var(--ns-font-display); font-weight: 400; color: var(--ns-cream); font-size: 44px; line-height: 1.1; margin: 0 0 10px; }
+  .masthead p { color: rgba(245,230,200,0.85); font-size: 17px; margin: 0; max-width: 56ch; }
+  .star { position: absolute; width: 16px; height: 16px; background: var(--ns-cream); clip-path: polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%); }
+  h2 { font-family: var(--ns-font-display); font-weight: 400; font-size: 28px; margin: 48px 0 16px; color: var(--ns-cola-brown); }
+  h3 { font-family: var(--ns-font-body); font-weight: 700; font-size: 17px; text-transform: uppercase; letter-spacing: 0.1em; margin: 28px 0 10px; color: var(--ns-cola-brown); }
+  p, li { font-size: 16px; line-height: 1.6; color: rgba(61,28,11,0.85); }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 15px; }
+  th { text-align: left; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; font-size: 12px; color: rgba(61,28,11,0.6); padding: 8px 12px 6px 0; border-bottom: 2px solid var(--ns-cola-brown); }
+  td { padding: 9px 12px 9px 0; border-bottom: 1px solid rgba(61,28,11,0.18); vertical-align: top; }
+  td:first-child { font-weight: 600; white-space: nowrap; }
+  code { font-family: var(--ns-font-mono); font-size: 0.9em; background: rgba(61,28,11,0.07); border: 1px solid rgba(61,28,11,0.15); border-radius: 3px; padding: 1px 5px; }
+  .pill { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; background: var(--ns-nuka-red); color: var(--ns-cream); border-radius: 999px; padding: 3px 10px; margin-right: 6px; }
+  .swatches { display: flex; gap: 0; margin: 14px 0 6px; border: 2px solid var(--ns-cola-brown); box-shadow: var(--ns-shadow-letterpress); }
+  .swatch { flex: 1; height: 64px; position: relative; }
+  .swatch span { position: absolute; left: 8px; bottom: 6px; font-family: var(--ns-font-mono); font-size: 10px; letter-spacing: 0.02em; }
+  .note { background: var(--ns-cream); border: 2px solid var(--ns-cola-brown); box-shadow: var(--ns-shadow-letterpress); padding: 18px 22px; margin: 20px 0; }
+  .note strong { color: var(--ns-nuka-red); }
+  .placeholder { border: 2px dashed rgba(61,28,11,0.4); padding: 22px; text-align: center; color: rgba(61,28,11,0.55); font-family: var(--ns-font-mono); font-size: 13px; margin: 16px 0; }
+</style>
+</head>
+<body>
+<div class="page doc">
+
+  <div class="masthead">
+    <div class="star" style="top: 14px; right: 18px;"></div>
+    <div class="star" style="top: 38px; right: 52px; width: 10px; height: 10px; opacity: 0.7;"></div>
+    <div class="eyebrow">NukaSoft.AI — Design Memo</div>
+    <h1>Vault 69 Command Center, refit</h1>
+    <p>Re-skinning the Skippy Dashboard from Pip-Boy phosphor green to the canonical NukaSoft Vault look. Flatter, more readable, built for two rooms: the big board on the wall, and the iPad in your hand.</p>
+  </div>
+
+  <h2>What I read before designing</h2>
+  <p>The linked <code>skippy-dashboard</code> codebase (React + Tailwind, CSS-variable theming, 9 routes), the README screenshots, and the NukaSoft design system — especially its Skippy Dashboard UI kit, which establishes the app chrome: Cola Brown shell, Nuka Red top bar, cream type, rad-yellow section labels, IBM Plex Mono for data.</p>
+
+  <h2>Assumptions</h2>
+  <ul>
+    <li><strong>Vault theme is home base.</strong> The app lives in dark Cola Brown (<code>#3D1C0B</code> family) so long sessions on a wall display don't burn a red rectangle into the room. Red is spent deliberately: the top bar, active states, primary buttons, alerts.</li>
+    <li><strong>Two sanctioned themes, not seventeen.</strong> <em>Vault</em> (dark, default) and <em>Terminal</em> (a NukaSoft-flavored CRT green as a nod to the current look). The 15 fan themes retire; the CSS-variable architecture stays so they could return as a community pack.</li>
+    <li><strong>CRT is a toggle</strong> — scanlines/vignette off by default (that's the "flatter, more readable" ask), one switch to bring the romance back.</li>
+    <li><strong>Crew voice everywhere.</strong> Sessions are <em>voyages</em>, agents are <em>Crew</em> (Artificial Persons), subagents are <em>deckhands</em>, the feed is the <em>Captain's Log</em>, timestamps render as stardates alongside clock time. Skippy narrates empty states.</li>
+    <li><strong>A Library view is added</strong> for the PDF reports/binders you mentioned, designed for tapping on an iPad.</li>
+  </ul>
+
+  <h2>The system</h2>
+  <div class="swatches">
+    <div class="swatch" style="background:#3D1C0B"><span style="color:#F5E6C8">cola brown — shell</span></div>
+    <div class="swatch" style="background:#2A1308"><span style="color:#F5E6C8">ink — rails</span></div>
+    <div class="swatch" style="background:#C41E24"><span style="color:#F5E6C8">nuka red — command</span></div>
+    <div class="swatch" style="background:#F5E6C8"><span style="color:#3D1C0B">cream — type</span></div>
+    <div class="swatch" style="background:#F1C40F"><span style="color:#3D1C0B">rad yellow — labels</span></div>
+    <div class="swatch" style="background:#54C47A"><span style="color:#2A1308">green — healthy</span></div>
+  </div>
+  <table>
+    <tr><th>Layer</th><th>Decision</th></tr>
+    <tr><td>Type</td><td>Abril Fatface for page titles only. Josefin Sans for UI. IBM Plex Mono for every number, ID, path, and stardate — data always reads as data.</td></tr>
+    <tr><td>Flatness</td><td>No glows, no gradients, no soft shadows inside the app. Flat fills, 1px hairlines, dashed dividers for data lists. Letterpress shadow reserved for the brand mark and primary buttons.</td></tr>
+    <tr><td>Status</td><td>One five-state vocabulary across all views: working / connected / idle / completed / error. Filled dot + uppercase mono label, same colors everywhere.</td></tr>
+    <tr><td>Density</td><td>Same as today, but with a real grid: 4px rhythm, aligned columns, right-aligned numerals.</td></tr>
+    <tr><td>Readability</td><td>Minimum 14px mono for data, 16px body. On the TV profile everything scales up ~35% — readable from a couch, not a desk chair.</td></tr>
+  </table>
+
+  <h2>Three layout directions</h2>
+  <p>All three are in one prototype, switchable live from the Tweaks panel — mix and match with theme, CRT, and display profile.</p>
+  <table>
+    <tr><th>Option</th><th>Idea</th><th>Best for</th></tr>
+    <tr><td><span class="pill">A</span> Crew Rail</td><td>By-the-book refit of the current left sidebar, restyled per the NukaSoft dashboard kit. Lowest-risk migration.</td><td>Desktop parity</td></tr>
+    <tr><td><span class="pill">B</span> The Bridge</td><td>Red command bar on top with tab rail beneath; full width for content. Nav never overlaps data.</td><td>The 4K wall board</td></tr>
+    <tr><td><span class="pill">C</span> Quarterdeck</td><td>Bottom dock with big 44px+ touch targets, thumb-reachable. Pages reflow to 2-col.</td><td>iPad in hand</td></tr>
+  </table>
+
+  <h2>Scope — all nine views, plus one</h2>
+  <p>STAT (the Bridge overview) · GTD (the Planner) · BOARD (crew kanban) · DATA (voyage ledger) · FEED (Captain's Log) · ANALYTICS (reactor room) · WORKFLOWS (orchestration) · BISHOP (ship systems) · CONFIG (quartermaster) · <strong>LIBRARY (report binders — new)</strong>.</p>
+
+  <div class="note">
+    <strong>Working prototype next.</strong> The clickable build is being assembled now — realistic data, live interactions, Tweaks for layout A/B/C, Vault/Terminal theme, CRT toggle, and display profiles for desktop, iPad, and the 4K board. The Claude Code handoff spec follows once we've settled on a direction.
+  </div>
+
+  <div class="placeholder">[ prototype link will land here — Skippy Command Center.html ]</div>
+
+</div>
+</body>
+</html>

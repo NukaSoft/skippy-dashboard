@@ -1,0 +1,35 @@
+/* ============================================
+   TERMINAL — the CRT-green nod (second sanctioned theme)
+   Values from the Vault Refit handoff (app/styles.css, data-theme="terminal")
+   ============================================ */
+
+body.theme-terminal {
+  --pip-primary: #BFF5C6;
+  --pip-dim: rgba(191, 245, 198, 0.7);
+  --pip-dark: rgba(191, 245, 198, 0.42);
+  --pip-glow: rgba(84, 196, 122, 0.14);          /* active-nav tint goes green */
+  --pip-amber: #F1C40F;
+  --pip-crit: #E43A41;
+  --pip-bg: #081408;
+  --pip-surface-1: #0A1A0A;
+  --pip-surface-2: #0E220E;
+  --pip-surface-3: #122B12;
+  --pip-surface-4: #173517;
+  --pip-surface-5: #1C401C;
+  --pip-border: rgba(191, 245, 198, 0.16);
+  --pip-border-light: rgba(191, 245, 198, 0.3);
+  --pip-data: #BFF5C6;
+
+  /* brand red stays for the command topbar; nav active goes green */
+  --pip-accent: #C41E24;
+  --pip-accent-hover: #E43A41;
+  --pip-accent-pressed: #8A1319;
+  --pip-ink: #06320E;
+  --pip-sky: #7FD8C9;
+  --pip-green: #54C47A;
+  --pip-terminal-well: #051005;
+}
+
+body.theme-terminal .text-accent { color: var(--pip-green) !important; }
+body.theme-terminal .border-accent\/20 { border-color: rgba(84, 196, 122, 0.3) !important; }
+body.theme-terminal ::selection { background: rgba(84, 196, 122, 0.35); color: var(--pip-primary); }

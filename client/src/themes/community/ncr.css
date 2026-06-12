@@ -1,0 +1,36 @@
+/* NCR Theme — New California Republic */
+body.theme-ncr {
+  --pip-primary: #D4AF77;
+  --pip-dim: #8B7355;
+  --pip-dark: #556B2F;
+  --pip-glow: rgba(212, 175, 119, 0.2);
+  --pip-amber: #DAA520;
+  --pip-crit: #CC4400;
+  --pip-bg: #1A1A0E;
+  --pip-surface-1: #222210;
+  --pip-surface-2: #2A2A16;
+  --pip-surface-3: #3A3A20;
+  --pip-surface-4: #4A4A2A;
+  --pip-surface-5: #6B8E23;
+  --pip-border: #8B7355;
+  --pip-border-light: #D4AF77;
+  --pip-data: #00FF00;
+  --pip-scanline: rgba(0, 0, 0, 0.12);
+  --pip-font-heading: 'Orbitron', 'Audiowide', monospace;
+  --pip-font-data: 'IBM Plex Mono', 'Space Mono', monospace;
+}
+
+body.theme-ncr::after {
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(85, 107, 47, 0.4) 100%);
+}
+
+body.theme-ncr .nav-active {
+  color: #DAA520 !important;
+  border-left-color: #DAA520 !important;
+  background: rgba(218, 165, 32, 0.08) !important;
+}
+
+body.theme-ncr .pip-seg-bar .seg.filled {
+  background: var(--pip-data);
+  box-shadow: 0 0 4px rgba(0, 255, 0, 0.3);
+}

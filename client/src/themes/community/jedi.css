@@ -1,0 +1,31 @@
+/* Jedi Temple Theme — Holocron Archives */
+body.theme-jedi {
+  --pip-primary: #4A90D9;
+  --pip-dim: #6B7B8D;
+  --pip-dark: #1A2030;
+  --pip-glow: rgba(74, 144, 217, 0.2);
+  --pip-amber: #D4A547;
+  --pip-crit: #CC3333;
+  --pip-bg: #0D1117;
+  --pip-surface-1: #131820;
+  --pip-surface-2: #1A2030;
+  --pip-surface-3: #222A3A;
+  --pip-surface-4: #2A3444;
+  --pip-surface-5: #3A4455;
+  --pip-border: #2A3444;
+  --pip-border-light: #4A5A6A;
+  --pip-data: #4A90D9;
+  --pip-scanline: rgba(0, 0, 0, 0.05);
+  --pip-font-heading: 'Orbitron', 'Monofonto', monospace;
+  --pip-font-data: 'Rajdhani', 'Roboto Mono', sans-serif;
+}
+
+body.theme-jedi::after {
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(0, 0, 0, 0.5) 100%);
+}
+
+body.theme-jedi .nav-active {
+  color: #D4A547 !important;
+  border-left-color: #D4A547 !important;
+  background: rgba(212, 165, 71, 0.08) !important;
+}

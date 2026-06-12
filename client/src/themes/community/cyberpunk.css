@@ -1,0 +1,31 @@
+/* Cyberpunk Theme — Night City */
+body.theme-cyberpunk {
+  --pip-primary: #FF003C;
+  --pip-dim: #CC0030;
+  --pip-dark: #1A0010;
+  --pip-glow: rgba(255, 0, 60, 0.2);
+  --pip-amber: #FCEE09;
+  --pip-crit: #FF0000;
+  --pip-bg: #0A0A12;
+  --pip-surface-1: #10101A;
+  --pip-surface-2: #181824;
+  --pip-surface-3: #202030;
+  --pip-surface-4: #2A2A3C;
+  --pip-surface-5: #3A3A4C;
+  --pip-border: #FF003C;
+  --pip-border-light: #CC0030;
+  --pip-data: #00FFFF;
+  --pip-scanline: rgba(0, 0, 0, 0.15);
+  --pip-font-heading: 'Orbitron', 'Monofonto', monospace;
+  --pip-font-data: 'JetBrains Mono', 'Roboto Mono', monospace;
+}
+
+body.theme-cyberpunk::after {
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(10, 0, 20, 0.8) 100%);
+}
+
+body.theme-cyberpunk .nav-active {
+  color: #FCEE09 !important;
+  border-left-color: #FCEE09 !important;
+  background: rgba(252, 238, 9, 0.08) !important;
+}
