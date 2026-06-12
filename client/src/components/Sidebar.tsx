@@ -13,6 +13,7 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
   ClipboardList,
+  BookOpen,
 } from "lucide-react";
 import ThemePicker from "./ThemePicker";
 
@@ -28,6 +29,7 @@ const STATIONS = [
 const QUARTERS = [
   { to: "/analytics", icon: BarChart3, label: "ANALYTICS" },
   { to: "/workflows", icon: Workflow, label: "WORKFLOWS" },
+  { to: "/library", icon: BookOpen, label: "LIBRARY" },
   { to: "/bishop", icon: Shield, label: "BISHOP" },
   { to: "/settings", icon: Settings, label: "CONFIG" },
 ] as const;

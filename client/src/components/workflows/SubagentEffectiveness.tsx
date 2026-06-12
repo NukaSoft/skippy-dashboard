@@ -1,9 +1,9 @@
-import type { SubagentEffectivenessItem } from "../../lib/types";
+﻿import type { SubagentEffectivenessItem } from "../../lib/types";
 import { getThemeColors } from "../../lib/theme";
 
 function getColors() {
   const t = getThemeColors();
-  return ["#10b981", t.primary, "#a855f7", "#f59e0b", "#f43f5e", "#06b6d4", "#f97316", t.primary];
+  return ["#54C47A", t.primary, "#a855f7", "#F1C40F", "#f43f5e", "#06b6d4", "#f97316", t.primary];
 }
 
 const RING_RADIUS = 28;
@@ -11,7 +11,7 @@ const RING_STROKE = 5;
 const RING_CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
 
 function formatDurationSec(seconds: number | null): string {
-  if (seconds === null || seconds < 0) return "—";
+  if (seconds === null || seconds < 0) return "â€”";
   const totalSec = Math.floor(seconds);
   const hours = Math.floor(totalSec / 3600);
   const minutes = Math.floor((totalSec % 3600) / 60);

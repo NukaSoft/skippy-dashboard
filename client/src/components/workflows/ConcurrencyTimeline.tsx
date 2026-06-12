@@ -1,12 +1,12 @@
-import type { ConcurrencyData, ConcurrencyLane } from "../../lib/types";
+﻿import type { ConcurrencyData, ConcurrencyLane } from "../../lib/types";
 import { getThemeColors } from "../../lib/theme";
 
-// ── Color palette ─────────────────────────────────────────────────────────────
+// â”€â”€ Color palette â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const SUBAGENT_PALETTE = [
-  "#10b981", // emerald
+  "#54C47A", // emerald
   "#60a5fa", // blue
-  "#f59e0b", // amber
+  "#F1C40F", // amber
   "#f43f5e", // rose
   "#06b6d4", // cyan
   "#f97316", // orange
@@ -19,11 +19,11 @@ function laneColor(name: string, subagentIndex: number): string {
   return SUBAGENT_PALETTE[subagentIndex % SUBAGENT_PALETTE.length] ?? getThemeColors().primary;
 }
 
-// ── X-axis tick labels ─────────────────────────────────────────────────────────
+// â”€â”€ X-axis tick labels â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const TICKS = [0, 25, 50, 75, 100];
 
-// ── Lane row ──────────────────────────────────────────────────────────────────
+// â”€â”€ Lane row â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 interface LaneRowProps {
   lane: ConcurrencyLane;
@@ -59,7 +59,7 @@ function LaneRow({ lane, color }: LaneRowProps) {
               backgroundColor: color,
               opacity: 0.85,
             }}
-            title={`${startPct.toFixed(1)}% – ${endPct.toFixed(1)}% of session duration`}
+            title={`${startPct.toFixed(1)}% â€“ ${endPct.toFixed(1)}% of session duration`}
           />
         )}
       </div>
@@ -72,7 +72,7 @@ function LaneRow({ lane, color }: LaneRowProps) {
   );
 }
 
-// ── Empty state ───────────────────────────────────────────────────────────────
+// â”€â”€ Empty state â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function EmptyState() {
   return (
@@ -98,7 +98,7 @@ function EmptyState() {
   );
 }
 
-// ── Public component ──────────────────────────────────────────────────────────
+// â”€â”€ Public component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export interface ConcurrencyTimelineProps {
   data: ConcurrencyData;

@@ -1,8 +1,8 @@
-import { useRef, useEffect } from "react";
+﻿import { useRef, useEffect } from "react";
 import * as d3 from "d3";
 import type { ErrorPropagationData } from "../../lib/types";
 
-// ── Constants ─────────────────────────────────────────────────────────────────
+// â”€â”€ Constants â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const MARGIN = { top: 20, right: 16, bottom: 36, left: 40 };
 const CHART_HEIGHT = 160;
@@ -18,7 +18,7 @@ function depthLabel(depth: number): string {
   return DEPTH_LABELS[depth] ?? `Depth ${depth}`;
 }
 
-// ── D3 bar chart ──────────────────────────────────────────────────────────────
+// â”€â”€ D3 bar chart â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function renderBars(svg: SVGSVGElement, byDepth: ErrorPropagationData["byDepth"]): void {
   const container = svg.parentElement;
@@ -134,7 +134,7 @@ function renderBars(svg: SVGSVGElement, byDepth: ErrorPropagationData["byDepth"]
   });
 }
 
-// ── Component ─────────────────────────────────────────────────────────────────
+// â”€â”€ Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export interface ErrorPropagationMapProps {
   data: ErrorPropagationData;
@@ -163,7 +163,7 @@ export function ErrorPropagationMap({ data }: ErrorPropagationMapProps) {
           height="40"
           viewBox="0 0 24 24"
           fill="none"
-          stroke="#10b981"
+          stroke="#54C47A"
           strokeWidth="1.5"
           aria-hidden="true"
         >

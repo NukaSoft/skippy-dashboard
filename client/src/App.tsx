@@ -8,6 +8,7 @@ import { SessionDetail } from "./pages/SessionDetail";
 import { ActivityFeed } from "./pages/ActivityFeed";
 import { Analytics } from "./pages/Analytics";
 import { Workflows } from "./pages/Workflows";
+import { Library } from "./pages/Library";
 import { Settings } from "./pages/Settings";
 import { Bishop } from "./pages/Bishop";
 import { GtdBoard } from "./pages/GtdBoard";
@@ -40,6 +41,7 @@ export default function App() {
           <Route path="activity" element={<ActivityFeed />} />
           <Route path="analytics" element={<Analytics />} />
           <Route path="workflows" element={<Workflows />} />
+          <Route path="library" element={<Library />} />
           <Route path="bishop" element={<Bishop />} />
           <Route path="settings" element={<Settings />} />
           <Route path="*" element={<NotFound />} />

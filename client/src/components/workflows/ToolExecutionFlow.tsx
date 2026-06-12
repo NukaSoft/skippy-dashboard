@@ -1,10 +1,10 @@
-import { useRef, useEffect, useState } from "react";
+﻿import { useRef, useEffect, useState } from "react";
 import * as d3 from "d3";
 import { sankey, sankeyLinkHorizontal } from "d3-sankey";
 import type { SankeyGraph, SankeyNode, SankeyLink } from "d3-sankey";
 import type { ToolFlowData } from "../../lib/types";
 
-// ── Constants ─────────────────────────────────────────────────────────────────
+// â”€â”€ Constants â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const MARGIN = { top: 24, right: 140, bottom: 24, left: 140 };
 const NODE_WIDTH = 14;
@@ -14,13 +14,13 @@ const LINK_OPACITY_DEFAULT = 0.15;
 const LINK_OPACITY_HOVER = 0.45;
 
 const TOOL_COLORS: Record<string, string> = {
-  Read: "#18FF62",
+  Read: "#E43A41",
   Write: "#22c55e",
   Edit: "#eab308",
-  Bash: "#ef4444",
+  Bash: "#C41E24",
   Grep: "#a855f7",
   Glob: "#ec4899",
-  Agent: "#18FF62",
+  Agent: "#E43A41",
 };
 const COLOR_DEFAULT = "#64748b";
 
@@ -34,7 +34,7 @@ function toolLabel(name: string): string {
   return name.replace(/_(source|target)$/, "");
 }
 
-// ── Types ─────────────────────────────────────────────────────────────────────
+// â”€â”€ Types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 interface NodeExtra {
   id: string;
@@ -54,14 +54,14 @@ interface TooltipState {
   content: string;
 }
 
-// ── Props ─────────────────────────────────────────────────────────────────────
+// â”€â”€ Props â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 interface ToolExecutionFlowProps {
   data: ToolFlowData;
   filterAgentType?: string | null;
 }
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
+// â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 /**
  * d3-sankey collapses self-loops and duplicate node references. To represent a
@@ -116,7 +116,7 @@ function buildSankeyInput(data: ToolFlowData): {
   return { nodes, links };
 }
 
-// ── Component ─────────────────────────────────────────────────────────────────
+// â”€â”€ Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export function ToolExecutionFlow({
   data,
@@ -213,7 +213,7 @@ export function ToolExecutionFlow({
 
     const root = svg.append("g").attr("transform", `translate(${MARGIN.left},${MARGIN.top})`);
 
-    // ── Gradient defs ──────────────────────────────────────────────────────
+    // â”€â”€ Gradient defs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const defs = svg.append("defs");
 
     (graph.links as SLink[]).forEach((link, i) => {
@@ -237,7 +237,7 @@ export function ToolExecutionFlow({
       (link as SLink & { _gradId: string })._gradId = gradId;
     });
 
-    // ── Links ──────────────────────────────────────────────────────────────
+    // â”€â”€ Links â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const linkPath = sankeyLinkHorizontal();
 
     const linkGroup = root.append("g").attr("class", "links");
@@ -274,7 +274,7 @@ export function ToolExecutionFlow({
         setTooltip(null);
       });
 
-    // ── Nodes ──────────────────────────────────────────────────────────────
+    // â”€â”€ Nodes â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const nodeGroup = root.append("g").attr("class", "nodes");
 
     const nodeGs = nodeGroup
@@ -294,7 +294,7 @@ export function ToolExecutionFlow({
       .attr("stroke-width", 0)
       .attr("fill-opacity", 0.9);
 
-    // ── Node labels ────────────────────────────────────────────────────────
+    // â”€â”€ Node labels â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     nodeGs.each(function (d: SNode) {
       const g = d3.select(this);
       const nodeX0 = d.x0 ?? 0;
@@ -371,7 +371,7 @@ export function ToolExecutionFlow({
   );
 }
 
-// ── Tooltip ───────────────────────────────────────────────────────────────────
+// â”€â”€ Tooltip â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function Tooltip({ x, y, content }: { x: number; y: number; content: string }) {
   const nearRight = typeof window !== "undefined" && x > window.innerWidth - 220;
@@ -392,16 +392,16 @@ function Tooltip({ x, y, content }: { x: number; y: number; content: string }) {
   );
 }
 
-// ── Legend ────────────────────────────────────────────────────────────────────
+// â”€â”€ Legend â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const LEGEND_ITEMS: Array<{ label: string; color: string }> = [
-  { label: "Read", color: "#18FF62" },
+  { label: "Read", color: "#E43A41" },
   { label: "Write", color: "#22c55e" },
   { label: "Edit", color: "#eab308" },
-  { label: "Bash", color: "#ef4444" },
+  { label: "Bash", color: "#C41E24" },
   { label: "Grep", color: "#a855f7" },
   { label: "Glob", color: "#ec4899" },
-  { label: "Agent", color: "#18FF62" },
+  { label: "Agent", color: "#E43A41" },
   { label: "Other", color: "#64748b" },
 ];
 

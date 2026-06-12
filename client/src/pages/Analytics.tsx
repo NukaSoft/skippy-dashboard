@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useSyncExternalStore } from "react";
+﻿import { useEffect, useState, useCallback, useSyncExternalStore } from "react";
 import {
   RefreshCw,
   Download,
@@ -16,7 +16,7 @@ import { fmt, fmtCost, fmtCostFull } from "../lib/format";
 import { Tip } from "../components/Tip";
 import type { Analytics as AnalyticsData, CostResult } from "../lib/types";
 
-// ── Tooltip ───────────────────────────────────────────────────────────────────
+// â”€â”€ Tooltip â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function ChartTooltip({ x, y, children }: { x: number; y: number; children: React.ReactNode }) {
   const nearRight = x > window.innerWidth - 200;
@@ -58,7 +58,7 @@ function useTooltip() {
   return { show, move, hide, node };
 }
 
-// ── Heatmap ──────────────────────────────────────────────────────────────────
+// â”€â”€ Heatmap â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const MONTH_LABELS = [
   "Jan",
@@ -77,16 +77,16 @@ const MONTH_LABELS = [
 const DAY_LABELS = ["", "Mon", "", "Wed", "", "Fri", ""];
 
 function cellColor(count: number, max: number) {
-  if (count === 0) return "#161625";
-  // Log scale + RGB interpolation across a wide color ramp for maximum perceptual range
+  if (count === 0) return "rgba(245,230,200,0.07)";
+  // Log scale + RGB interpolation across the Vault reactor ramp
   const t = Math.log(count + 1) / Math.log(Math.max(max, 1) + 1);
-  // Ramp: pip dark → pip dim → pip green → lavender
+  // Ramp: pressed red -> command red -> bright red -> rad yellow
   type RGB = [number, number, number];
   const stops: RGB[] = [
-    [11, 26, 11], // pip dark
-    [13, 42, 13], // pip dim
-    [24, 255, 98], // pip green
-    [199, 210, 254], // lavender
+    [138, 19, 25], // #8A1319 pressed red
+    [196, 30, 36], // #C41E24 command red
+    [228, 58, 65], // #E43A41 bright red
+    [241, 196, 15], // #F1C40F rad yellow
   ];
   const scaled = t * (stops.length - 1);
   const lo = Math.min(Math.floor(scaled), stops.length - 2);
@@ -200,11 +200,11 @@ function Heatmap({ weeks }: { weeks: Array<Array<{ date: string; count: number }
   );
 }
 
-// ── Sparkline bar chart ───────────────────────────────────────────────────────
+// â”€â”€ Sparkline bar chart â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function Sparkline({
   data,
-  color = "#18FF62",
+  color = "#E43A41",
 }: {
   data: Array<{ date: string; count: number }>;
   color?: string;
@@ -240,7 +240,7 @@ function Sparkline({
   );
 }
 
-// ── Bar row ───────────────────────────────────────────────────────────────────
+// â”€â”€ Bar row â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function BarRow({
   label,
@@ -274,7 +274,7 @@ function BarRow({
   );
 }
 
-// ── Donut segment via SVG ─────────────────────────────────────────────────────
+// â”€â”€ Donut segment via SVG â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function DonutChart({
   segments,
@@ -356,7 +356,7 @@ function DonutChart({
   );
 }
 
-// ── StatPill ──────────────────────────────────────────────────────────────────
+// â”€â”€ StatPill â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function StatPill({
   label,
@@ -385,7 +385,7 @@ function StatPill({
   );
 }
 
-// ── Main page ─────────────────────────────────────────────────────────────────
+// â”€â”€ Main page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export function Analytics() {
   const [data, setData] = useState<AnalyticsData | null>(null);
@@ -439,7 +439,7 @@ export function Analytics() {
     URL.revokeObjectURL(url);
   }
 
-  // Local date string helper — avoids UTC offset issues where toISOString()
+  // Local date string helper â€” avoids UTC offset issues where toISOString()
   // can show tomorrow's date if the user is behind UTC.
   function localDateStr(d: Date): string {
     const y = d.getFullYear();
@@ -448,17 +448,17 @@ export function Analytics() {
     return `${y}-${m}-${day}`;
   }
 
-  // Server returns UTC dates — reindex events by local date so the heatmap
+  // Server returns UTC dates â€” reindex events by local date so the heatmap
   // and sparkline align with the user's calendar.
   const dailyMap: Record<string, number> = {};
   for (const d of data?.daily_events ?? []) {
-    // d.date is "YYYY-MM-DD" in UTC — parse as noon UTC to avoid DST edge cases,
+    // d.date is "YYYY-MM-DD" in UTC â€” parse as noon UTC to avoid DST edge cases,
     // then convert to local date string
     const local = localDateStr(new Date(d.date + "T12:00:00Z"));
     dailyMap[local] = (dailyMap[local] ?? 0) + d.count;
   }
 
-  // Build heatmap: 52 weeks × 7 days
+  // Build heatmap: 52 weeks Ã— 7 days
   const today = new Date();
   const startDate = new Date(today);
   startDate.setDate(today.getDate() - 363);
@@ -510,18 +510,18 @@ export function Analytics() {
     totalTokens > 0 ? Math.round(((data?.tokens.total_cache_read ?? 0) / totalTokens) * 100) : 0;
 
   const sessionOutcomeSegments = [
-    { label: "Completed", value: data?.sessions_by_status?.completed ?? 0, color: "#8b5cf6" },
-    { label: "Active", value: data?.sessions_by_status?.active ?? 0, color: "#10b981" },
-    { label: "Error", value: data?.sessions_by_status?.error ?? 0, color: "#ef4444" },
-    { label: "Abandoned", value: data?.sessions_by_status?.abandoned ?? 0, color: "#f59e0b" },
+    { label: "Completed", value: data?.sessions_by_status?.completed ?? 0, color: "#87CEEB" },
+    { label: "Active", value: data?.sessions_by_status?.active ?? 0, color: "#54C47A" },
+    { label: "Error", value: data?.sessions_by_status?.error ?? 0, color: "#C41E24" },
+    { label: "Abandoned", value: data?.sessions_by_status?.abandoned ?? 0, color: "#F1C40F" },
   ].filter((s) => s.value > 0);
 
   const agentStatusSegments = [
-    { label: "Completed", value: data?.agents_by_status?.completed ?? 0, color: "#8b5cf6" },
-    { label: "Working", value: data?.agents_by_status?.working ?? 0, color: "#10b981" },
-    { label: "Connected", value: data?.agents_by_status?.connected ?? 0, color: "#18FF62" },
+    { label: "Completed", value: data?.agents_by_status?.completed ?? 0, color: "#54C47A" },
+    { label: "Working", value: data?.agents_by_status?.working ?? 0, color: "#F1C40F" },
+    { label: "Connected", value: data?.agents_by_status?.connected ?? 0, color: "#87CEEB" },
     { label: "Idle", value: data?.agents_by_status?.idle ?? 0, color: "#6b7280" },
-    { label: "Error", value: data?.agents_by_status?.error ?? 0, color: "#ef4444" },
+    { label: "Error", value: data?.agents_by_status?.error ?? 0, color: "#C41E24" },
   ].filter((s) => s.value > 0);
 
   const EVENT_TYPE_COLORS: Record<string, string> = {
@@ -629,7 +629,7 @@ export function Analytics() {
       {/* Activity heatmap + 30-day sparkline */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="card p-5 lg:col-span-2 overflow-x-auto">
-          <h3 className="text-sm font-medium text-gray-300 mb-4">Event Activity — Last 52 Weeks</h3>
+          <h3 className="text-sm font-medium text-gray-300 mb-4">Event Activity â€” Last 52 Weeks</h3>
           <div className="overflow-x-auto">
             <Heatmap weeks={weeks} />
           </div>
@@ -789,7 +789,7 @@ export function Analytics() {
                         label: b.model,
                         value: Math.round(b.cost * 100),
                         color:
-                          ["#8b5cf6", "#18FF62", "#10b981", "#f59e0b", "#ef4444", "#ec4899"][
+                          ["#87CEEB", "#E43A41", "#54C47A", "#F1C40F", "#C41E24", "#ec4899"][
                             i % 6
                           ] ?? "#6b7280",
                       }))}
@@ -962,7 +962,7 @@ export function Analytics() {
                 <p className="text-sm text-gray-500">No session trend data yet.</p>
               ) : (
                 <>
-                  <Sparkline data={dailySessionsLocal.slice(-30)} color="#18FF62" />
+                  <Sparkline data={dailySessionsLocal.slice(-30)} color="#E43A41" />
                   <div className="mt-4 space-y-2">
                     {dailySessionsLocal
                       .slice(-7)

@@ -1,9 +1,9 @@
-import { useRef, useEffect } from "react";
+﻿import { useRef, useEffect } from "react";
 import * as d3 from "d3";
 import type { ModelDelegationData } from "../../lib/types";
 
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
+// â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function modelFamily(name: string): "opus" | "sonnet" | "haiku" | "other" {
   const lower = name.toLowerCase();
@@ -27,7 +27,7 @@ function shortModelName(name: string): string {
     .replace(/-latest$/i, "");
 }
 
-// ── Color palette per model family ───────────────────────────────────────────
+// â”€â”€ Color palette per model family â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const FAMILY_COLORS = {
   opus: {
@@ -37,14 +37,14 @@ const FAMILY_COLORS = {
     badge: "rgba(168,85,247,0.15)",
   },
   sonnet: {
-    grad: ["#0bae0f", "#18FF62"] as [string, string],
-    stroke: "#18FF62",
+    grad: ["#54C47A", "#E43A41"] as [string, string],
+    stroke: "#E43A41",
     text: "#bfdbfe",
     badge: "rgba(59,130,246,0.15)",
   },
   haiku: {
-    grad: ["#065f46", "#10b981"] as [string, string],
-    stroke: "#10b981",
+    grad: ["#065f46", "#54C47A"] as [string, string],
+    stroke: "#54C47A",
     text: "#a7f3d0",
     badge: "rgba(16,185,129,0.15)",
   },
@@ -56,7 +56,7 @@ const FAMILY_COLORS = {
   },
 } as const;
 
-// ── Types used internally ─────────────────────────────────────────────────────
+// â”€â”€ Types used internally â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 interface NodeDatum {
   id: string;
@@ -75,7 +75,7 @@ interface EdgeDatum {
   targetId: string;
 }
 
-// ── D3 chart renderer ─────────────────────────────────────────────────────────
+// â”€â”€ D3 chart renderer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const NODE_W = 160;
 const NODE_H = 80;
@@ -243,7 +243,7 @@ function renderFlow(
   });
 }
 
-// ── Component ─────────────────────────────────────────────────────────────────
+// â”€â”€ Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export interface ModelDelegationFlowProps {
   data: ModelDelegationData;
