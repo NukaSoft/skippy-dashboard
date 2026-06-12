@@ -1,8 +1,8 @@
-﻿import { useRef, useEffect, useMemo } from "react";
+import { useRef, useEffect, useMemo } from "react";
 import * as d3 from "d3";
 import { getThemeColors } from "../../lib/theme";
 
-// â”€â”€ Types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Types ──────────────────────────────────────────────────────────────────────
 
 export interface AgentCollaborationNetworkProps {
   effectiveness: Array<{
@@ -29,7 +29,7 @@ interface PipelineLink extends d3.SimulationLinkDatum<PipelineNode> {
   label: string;
 }
 
-// â”€â”€ Constants â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Constants ──────────────────────────────────────────────────────────────────
 
 function getPalette() {
   const t = getThemeColors();
@@ -46,7 +46,7 @@ function getStrokePalette() {
 const MIN_R = 20;
 const MAX_R = 44;
 
-// â”€â”€ Safe tooltip DOM builder â”€â”€
+// ── Safe tooltip DOM builder ──
 
 function showTooltip(el: HTMLDivElement, d: PipelineNode, x: number, y: number) {
   el.textContent = "";
@@ -82,7 +82,7 @@ function showTooltip(el: HTMLDivElement, d: PipelineNode, x: number, y: number) 
   el.style.transform = nearRight ? "translateX(-100%)" : "";
 }
 
-// â”€â”€ Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Component ──────────────────────────────────────────────────────────────────
 
 export function AgentCollaborationNetwork({
   effectiveness,
@@ -111,7 +111,7 @@ export function AgentCollaborationNetwork({
     for (const e of edges) {
       if (e.source === e.target) continue;
       if (!nodeMap.has(e.source) || !nodeMap.has(e.target)) continue;
-      const key = `${e.source}â†’${e.target}`;
+      const key = `${e.source}→${e.target}`;
       if (seen.has(key)) continue;
       seen.add(key);
       links.push({
@@ -126,7 +126,7 @@ export function AgentCollaborationNetwork({
     return { nodes, links, isEmpty: nodes.length === 0 || links.length === 0 };
   }, [effectiveness, edges]);
 
-  // D3 simulation â€” only depends on memoized data
+  // D3 simulation — only depends on memoized data
   useEffect(() => {
     const svg = svgRef.current;
     const container = containerRef.current;
@@ -183,7 +183,7 @@ export function AgentCollaborationNetwork({
       .range([1.5, 5])
       .clamp(true);
 
-    // â”€â”€ Links (paths for curves) â”€â”€
+    // ── Links (paths for curves) ──
     const linkGroup = root.append("g");
     const linkEls = linkGroup
       .selectAll<SVGPathElement, PipelineLink>("path")
@@ -195,7 +195,7 @@ export function AgentCollaborationNetwork({
       .attr("stroke-width", (d) => Math.max(1.5, strokeScale(d.weight)))
       .attr("marker-end", "url(#arrowhead)");
 
-    // â”€â”€ Edge labels â”€â”€
+    // ── Edge labels ──
     const labelGroup = root.append("g");
     const edgeLabels = labelGroup
       .selectAll<SVGTextElement, PipelineLink>("text")
@@ -209,7 +209,7 @@ export function AgentCollaborationNetwork({
       .attr("pointer-events", "none")
       .text((d) => d.label);
 
-    // â”€â”€ Nodes â”€â”€
+    // ── Nodes ──
     const nodeGroup = root.append("g");
     const nodeEls = nodeGroup
       .selectAll<SVGGElement, PipelineNode>("g")
@@ -236,7 +236,7 @@ export function AgentCollaborationNetwork({
       .attr("pointer-events", "none")
       .text((d) => (d.id.length > 16 ? d.id.slice(0, 14) + "\u2026" : d.id));
 
-    // â”€â”€ Invisible wider hit areas for edge hover â”€â”€
+    // ── Invisible wider hit areas for edge hover ──
     const hitGroup = root.append("g");
     const linkHits = hitGroup
       .selectAll<SVGPathElement, PipelineLink>("path")
@@ -247,7 +247,7 @@ export function AgentCollaborationNetwork({
       .attr("stroke-width", 16)
       .attr("cursor", "pointer");
 
-    // â”€â”€ Hover â€” pure DOM, zero React re-renders â”€â”€
+    // ── Hover — pure DOM, zero React re-renders ──
     const tipEl = tooltipRef.current;
 
     // Edge hover
@@ -343,7 +343,7 @@ export function AgentCollaborationNetwork({
         if (tipEl) tipEl.style.display = "none";
       });
 
-    // â”€â”€ Drag â”€â”€
+    // ── Drag ──
     const drag = d3
       .drag<SVGGElement, PipelineNode>()
       .on("start", (event, d) => {
@@ -362,7 +362,7 @@ export function AgentCollaborationNetwork({
       });
     nodeEls.call(drag);
 
-    // â”€â”€ Simulation â”€â”€
+    // ── Simulation ──
     const simulation = d3
       .forceSimulation<PipelineNode>(simNodes)
       .force(

@@ -1,8 +1,8 @@
-﻿import { useRef, useEffect, useMemo, useState, useCallback } from "react";
+import { useRef, useEffect, useMemo, useState, useCallback } from "react";
 import * as d3 from "d3";
 import type { OrchestrationData } from "../../lib/types";
 
-// â”€â”€ Types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Types ─────────────────────────────────────────────────────────────────────
 
 interface OrchestrationDAGProps {
   data: OrchestrationData;
@@ -42,7 +42,7 @@ interface TooltipState {
   node: DAGNode;
 }
 
-// â”€â”€ Constants â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Constants ─────────────────────────────────────────────────────────────────
 
 const NODE_W = 136;
 const NODE_H = 44;
@@ -105,7 +105,7 @@ const KIND_GRADIENTS: Record<
   },
 };
 
-// â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Helpers ───────────────────────────────────────────────────────────────────
 
 function isEmpty(data: OrchestrationData): boolean {
   return (
@@ -117,7 +117,7 @@ function isEmpty(data: OrchestrationData): boolean {
 }
 
 function successRate(completed: number, total: number): string {
-  if (total === 0) return "â€”";
+  if (total === 0) return "—";
   return `${Math.round((completed / total) * 100)}%`;
 }
 
@@ -125,7 +125,7 @@ function outcomeColorSet(status: string) {
   return OUTCOME_COLORS[status] ?? { fill: "#1a1a28", stroke: "#363650", text: "#9ca3af" };
 }
 
-// â”€â”€ Layout builder â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Layout builder ────────────────────────────────────────────────────────────
 
 function buildGraph(data: OrchestrationData): {
   nodes: DAGNode[];
@@ -135,7 +135,7 @@ function buildGraph(data: OrchestrationData): {
 } {
   const rawNodes: Omit<DAGNode, "x" | "y">[] = [];
 
-  // Layer 0 â€” sessions
+  // Layer 0 — sessions
   rawNodes.push({
     id: "sessions",
     label: "Sessions",
@@ -146,7 +146,7 @@ function buildGraph(data: OrchestrationData): {
     height: NODE_H,
   });
 
-  // Layer 1 â€” main agent
+  // Layer 1 — main agent
   rawNodes.push({
     id: "main",
     label: "Main Agent",
@@ -157,7 +157,7 @@ function buildGraph(data: OrchestrationData): {
     height: NODE_H,
   });
 
-  // Layer 2 â€” subagent types (deduplicated, capped at MAX_SUBAGENT_NODES)
+  // Layer 2 — subagent types (deduplicated, capped at MAX_SUBAGENT_NODES)
   const subagentMap = new Map<string, { count: number; completed: number; errors: number }>();
   for (const s of data.subagentTypes) {
     const key = s.subagent_type || "unknown";
@@ -178,7 +178,7 @@ function buildGraph(data: OrchestrationData): {
   for (const [type, stats] of visible) {
     rawNodes.push({
       id: `subagent:${type}`,
-      label: type.length > 14 ? type.slice(0, 12) + "â€¦" : type,
+      label: type.length > 14 ? type.slice(0, 12) + "…" : type,
       count: stats.count,
       layer: 2,
       kind: "subagent",
@@ -201,7 +201,7 @@ function buildGraph(data: OrchestrationData): {
     });
   }
 
-  // Layer 3 â€” compactions (context compressions)
+  // Layer 3 — compactions (context compressions)
   const compactions = (data as unknown as { compactions?: { total: number; sessions: number } })
     .compactions;
   const compTotal = compactions?.total ?? 0;
@@ -229,7 +229,7 @@ function buildGraph(data: OrchestrationData): {
     });
   }
 
-  // Layer 4 â€” outcomes
+  // Layer 4 — outcomes
   const outcomeMap = new Map<string, number>();
   for (const o of data.outcomes) {
     outcomeMap.set(o.status, (outcomeMap.get(o.status) ?? 0) + o.count);
@@ -293,7 +293,7 @@ function buildGraph(data: OrchestrationData): {
   const rawEdges: DAGEdge[] = [];
 
   const addEdge = (source: string, target: string, weight: number) => {
-    const key = `${source}â†’${target}`;
+    const key = `${source}→${target}`;
     if (edgeSet.has(key)) return;
     edgeSet.add(key);
     const sn = nodeMap.get(source);
@@ -303,10 +303,10 @@ function buildGraph(data: OrchestrationData): {
     }
   };
 
-  // Sessions â†’ Main
+  // Sessions → Main
   addEdge("sessions", "main", data.mainCount || 1);
 
-  // Main â†’ each subagent type (use data.edges if available, else uniform)
+  // Main → each subagent type (use data.edges if available, else uniform)
   const subagentIds = nodes.filter((n) => n.kind === "subagent").map((n) => n.id);
   const compactionIds = nodes.filter((n) => n.kind === "nested").map((n) => n.id);
   const outcomeIds = nodes.filter((n) => n.kind === "outcome").map((n) => n.id);
@@ -331,7 +331,7 @@ function buildGraph(data: OrchestrationData): {
     addEdge(srcId, tgtId, edge.weight);
   }
 
-  // Structural fallbacks: main â†’ subagents if no data edges cover them
+  // Structural fallbacks: main → subagents if no data edges cover them
   for (const sid of subagentIds) {
     const hasEdge = rawEdges.some((e) => e.target === sid);
     if (!hasEdge) {
@@ -340,7 +340,7 @@ function buildGraph(data: OrchestrationData): {
     }
   }
 
-  // Subagents â†’ compaction nodes
+  // Subagents → compaction nodes
   for (const cid of compactionIds) {
     const cNode = nodeMap.get(cid);
     const weight = Math.max(1, cNode?.count ?? 1);
@@ -350,7 +350,7 @@ function buildGraph(data: OrchestrationData): {
     }
   }
 
-  // Compaction â†’ outcomes
+  // Compaction → outcomes
   for (const cid of compactionIds) {
     for (const oid of outcomeIds) {
       const outcomeNode = nodeMap.get(oid);
@@ -377,7 +377,7 @@ function buildGraph(data: OrchestrationData): {
   return { nodes, edges: rawEdges, svgWidth, svgHeight };
 }
 
-// â”€â”€ Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Component ─────────────────────────────────────────────────────────────────
 
 export function OrchestrationDAG({ data, onNodeClick, selectedNode }: OrchestrationDAGProps) {
   const svgRef = useRef<SVGSVGElement>(null);
@@ -408,7 +408,7 @@ export function OrchestrationDAG({ data, onNodeClick, selectedNode }: Orchestrat
     const root = d3.select(svg);
     root.selectAll("*").remove();
 
-    // â”€â”€ Defs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Defs ──────────────────────────────────────────────────────────────────
 
     const defs = root.append("defs");
 
@@ -469,7 +469,7 @@ export function OrchestrationDAG({ data, onNodeClick, selectedNode }: Orchestrat
     edgeMerge.append("feMergeNode").attr("in", "blur");
     edgeMerge.append("feMergeNode").attr("in", "SourceGraphic");
 
-    // â”€â”€ Layer labels â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Layer labels ──────────────────────────────────────────────────────────
 
     const labelLayer = root.append("g").attr("class", "layer-labels");
     const layerXPositions = [0, 1, 2, 3, 4].map(
@@ -490,7 +490,7 @@ export function OrchestrationDAG({ data, onNodeClick, selectedNode }: Orchestrat
       .attr("text-transform", "uppercase")
       .text((d) => d.toUpperCase());
 
-    // â”€â”€ Layer separator lines â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Layer separator lines ──────────────────────────────────────────────────
 
     const sepLayer = root.append("g").attr("class", "layer-separators");
     for (let li = 1; li < 5; li++) {
@@ -506,7 +506,7 @@ export function OrchestrationDAG({ data, onNodeClick, selectedNode }: Orchestrat
         .attr("stroke-dasharray", "4 4");
     }
 
-    // â”€â”€ Edges â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Edges ─────────────────────────────────────────────────────────────────
 
     const weightExtent = d3.extent(edges, (e) => e.weight) as [number, number];
     const strokeScale = d3
@@ -553,7 +553,7 @@ export function OrchestrationDAG({ data, onNodeClick, selectedNode }: Orchestrat
         .attr("stroke-linecap", "round");
     }
 
-    // â”€â”€ Nodes â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Nodes ─────────────────────────────────────────────────────────────────
 
     const nodeLayer = root.append("g").attr("class", "nodes");
 
@@ -602,7 +602,7 @@ export function OrchestrationDAG({ data, onNodeClick, selectedNode }: Orchestrat
       .attr("filter", "url(#glow)")
       .attr("opacity", 0.8);
 
-    // Background rect â€” outcome nodes use per-status fill
+    // Background rect — outcome nodes use per-status fill
     nodeGroups
       .append("rect")
       .attr("class", "node-bg")
@@ -742,13 +742,13 @@ export function OrchestrationDAG({ data, onNodeClick, selectedNode }: Orchestrat
         </div>
       </div>
 
-      {/* Tooltip â€” rendered in React DOM, not D3 */}
+      {/* Tooltip — rendered in React DOM, not D3 */}
       {tooltip && <DAGTooltip tooltip={tooltip} />}
     </div>
   );
 }
 
-// â”€â”€ Tooltip component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Tooltip component ─────────────────────────────────────────────────────────
 
 function DAGTooltip({ tooltip }: { tooltip: TooltipState }) {
   const { x, y, node } = tooltip;
@@ -796,7 +796,7 @@ function DAGTooltip({ tooltip }: { tooltip: TooltipState }) {
   );
 }
 
-// â”€â”€ Utility functions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Utility functions ─────────────────────────────────────────────────────────
 
 function borderColorForKind(kind: DAGNode["kind"]): string {
   switch (kind) {
@@ -852,7 +852,7 @@ function fmtCount(n: number): string {
   return String(Math.round(n));
 }
 
-// â”€â”€ Legend data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Legend data ───────────────────────────────────────────────────────────────
 
 const LEGEND_ITEMS = [
   { label: "Sessions", color: "#0d2a0d", border: "#E43A41" },

@@ -1,8 +1,8 @@
-﻿import { useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import * as d3 from "d3";
 import type { ErrorPropagationData } from "../../lib/types";
 
-// â”€â”€ Constants â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Constants ─────────────────────────────────────────────────────────────────
 
 const MARGIN = { top: 20, right: 16, bottom: 36, left: 40 };
 const CHART_HEIGHT = 160;
@@ -18,7 +18,7 @@ function depthLabel(depth: number): string {
   return DEPTH_LABELS[depth] ?? `Depth ${depth}`;
 }
 
-// â”€â”€ D3 bar chart â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── D3 bar chart ──────────────────────────────────────────────────────────────
 
 function renderBars(svg: SVGSVGElement, byDepth: ErrorPropagationData["byDepth"]): void {
   const container = svg.parentElement;
@@ -134,7 +134,7 @@ function renderBars(svg: SVGSVGElement, byDepth: ErrorPropagationData["byDepth"]
   });
 }
 
-// â”€â”€ Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Component ─────────────────────────────────────────────────────────────────
 
 export interface ErrorPropagationMapProps {
   data: ErrorPropagationData;

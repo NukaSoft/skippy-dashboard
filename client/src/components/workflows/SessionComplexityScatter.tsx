@@ -1,8 +1,8 @@
-﻿import { useRef, useEffect, useState, useCallback } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 import * as d3 from "d3";
 import type { SessionComplexityItem } from "../../lib/types";
 
-// â”€â”€ Constants â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Constants ─────────────────────────────────────────────────────────────────
 
 const MARGIN = { top: 20, right: 24, bottom: 60, left: 52 };
 const MIN_BUBBLE_R = 4;
@@ -19,7 +19,7 @@ function statusColor(status: string): string {
   return STATUS_COLOR[status] ?? "#6b7280";
 }
 
-// â”€â”€ Duration formatting â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Duration formatting ───────────────────────────────────────────────────────
 
 function formatDurationSec(sec: number): string {
   if (sec < 60) return `${Math.round(sec)}s`;
@@ -45,7 +45,7 @@ function fmtTokens(n: number): string {
   return String(n);
 }
 
-// â”€â”€ Tooltip â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Tooltip ───────────────────────────────────────────────────────────────────
 
 interface TooltipState {
   x: number;
@@ -84,7 +84,7 @@ function Tooltip({ state }: { state: TooltipState }) {
   );
 }
 
-// â”€â”€ Legend â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Legend ────────────────────────────────────────────────────────────────────
 
 const LEGEND_STATUSES = ["completed", "active", "error", "abandoned"] as const;
 
@@ -104,7 +104,7 @@ function Legend() {
   );
 }
 
-// â”€â”€ Empty state â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Empty state ───────────────────────────────────────────────────────────────
 
 function EmptyState() {
   return (
@@ -130,7 +130,7 @@ function EmptyState() {
   );
 }
 
-// â”€â”€ Main chart â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Main chart ────────────────────────────────────────────────────────────────
 
 export interface SessionComplexityScatterProps {
   data: SessionComplexityItem[];
@@ -264,7 +264,7 @@ export function SessionComplexityScatter({ data, onSessionClick }: SessionComple
       .attr("font-size", "11")
       .text("Agent Count");
 
-    // Bubbles â€” sort largest to back so small ones are clickable
+    // Bubbles — sort largest to back so small ones are clickable
     const sorted = [...data].sort((a, b) => b.totalTokens - a.totalTokens);
 
     g.selectAll<SVGCircleElement, SessionComplexityItem>("circle")

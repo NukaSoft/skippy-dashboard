@@ -1,4 +1,4 @@
-﻿import { useEffect, useState, useCallback, useSyncExternalStore } from "react";
+import { useEffect, useState, useCallback, useSyncExternalStore } from "react";
 import {
   RefreshCw,
   Download,
@@ -16,7 +16,7 @@ import { fmt, fmtCost, fmtCostFull } from "../lib/format";
 import { Tip } from "../components/Tip";
 import type { Analytics as AnalyticsData, CostResult } from "../lib/types";
 
-// â”€â”€ Tooltip â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Tooltip ───────────────────────────────────────────────────────────────────
 
 function ChartTooltip({ x, y, children }: { x: number; y: number; children: React.ReactNode }) {
   const nearRight = x > window.innerWidth - 200;
@@ -58,7 +58,7 @@ function useTooltip() {
   return { show, move, hide, node };
 }
 
-// â”€â”€ Heatmap â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Heatmap ──────────────────────────────────────────────────────────────────
 
 const MONTH_LABELS = [
   "Jan",
@@ -80,7 +80,7 @@ function cellColor(count: number, max: number) {
   if (count === 0) return "rgba(245,230,200,0.07)";
   // Log scale + RGB interpolation across the Vault reactor ramp
   const t = Math.log(count + 1) / Math.log(Math.max(max, 1) + 1);
-  // Ramp: pressed red -> command red -> bright red -> rad yellow
+  // Ramp: pressed red → command red → bright red → rad yellow
   type RGB = [number, number, number];
   const stops: RGB[] = [
     [138, 19, 25], // #8A1319 pressed red
@@ -200,7 +200,7 @@ function Heatmap({ weeks }: { weeks: Array<Array<{ date: string; count: number }
   );
 }
 
-// â”€â”€ Sparkline bar chart â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Sparkline bar chart ───────────────────────────────────────────────────────
 
 function Sparkline({
   data,
@@ -240,7 +240,7 @@ function Sparkline({
   );
 }
 
-// â”€â”€ Bar row â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Bar row ───────────────────────────────────────────────────────────────────
 
 function BarRow({
   label,
@@ -274,7 +274,7 @@ function BarRow({
   );
 }
 
-// â”€â”€ Donut segment via SVG â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Donut segment via SVG ─────────────────────────────────────────────────────
 
 function DonutChart({
   segments,
@@ -356,7 +356,7 @@ function DonutChart({
   );
 }
 
-// â”€â”€ StatPill â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── StatPill ──────────────────────────────────────────────────────────────────
 
 function StatPill({
   label,
@@ -385,7 +385,7 @@ function StatPill({
   );
 }
 
-// â”€â”€ Main page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Main page ─────────────────────────────────────────────────────────────────
 
 export function Analytics() {
   const [data, setData] = useState<AnalyticsData | null>(null);
@@ -439,7 +439,7 @@ export function Analytics() {
     URL.revokeObjectURL(url);
   }
 
-  // Local date string helper â€” avoids UTC offset issues where toISOString()
+  // Local date string helper — avoids UTC offset issues where toISOString()
   // can show tomorrow's date if the user is behind UTC.
   function localDateStr(d: Date): string {
     const y = d.getFullYear();
@@ -448,17 +448,17 @@ export function Analytics() {
     return `${y}-${m}-${day}`;
   }
 
-  // Server returns UTC dates â€” reindex events by local date so the heatmap
+  // Server returns UTC dates — reindex events by local date so the heatmap
   // and sparkline align with the user's calendar.
   const dailyMap: Record<string, number> = {};
   for (const d of data?.daily_events ?? []) {
-    // d.date is "YYYY-MM-DD" in UTC â€” parse as noon UTC to avoid DST edge cases,
+    // d.date is "YYYY-MM-DD" in UTC — parse as noon UTC to avoid DST edge cases,
     // then convert to local date string
     const local = localDateStr(new Date(d.date + "T12:00:00Z"));
     dailyMap[local] = (dailyMap[local] ?? 0) + d.count;
   }
 
-  // Build heatmap: 52 weeks Ã— 7 days
+  // Build heatmap: 52 weeks × 7 days
   const today = new Date();
   const startDate = new Date(today);
   startDate.setDate(today.getDate() - 363);
@@ -629,7 +629,7 @@ export function Analytics() {
       {/* Activity heatmap + 30-day sparkline */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="card p-5 lg:col-span-2 overflow-x-auto">
-          <h3 className="text-sm font-medium text-gray-300 mb-4">Event Activity â€” Last 52 Weeks</h3>
+          <h3 className="text-sm font-medium text-gray-300 mb-4">Event Activity — Last 52 Weeks</h3>
           <div className="overflow-x-auto">
             <Heatmap weeks={weeks} />
           </div>
