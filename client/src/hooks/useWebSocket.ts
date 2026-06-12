@@ -19,7 +19,9 @@ export function useWebSocket(onMessage: MessageHandler) {
 
     const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
     const host = window.location.host;
-    const ws = new WebSocket(`${protocol}//${host}/ws`);
+    // Adaptive: "/dashboard/ws" behind the Nginx prefix, "/ws" served direct from :4820.
+    const wsPath = window.location.pathname.startsWith("/dashboard") ? "/dashboard/ws" : "/ws";
+    const ws = new WebSocket(`${protocol}//${host}${wsPath}`);
 
     ws.onopen = () => {
       if (mountedRef.current) {
